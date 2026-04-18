@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>12-Week GLP-1 Training Plan</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -15,17 +15,17 @@
   --border:#E2DBD0;--radius:12px;--radius-sm:8px;
   --phase-end:#D8F3DC;--phase-hyp:#E8F4F8;--phase-str:#EDE0CC;--phase-pow:#FAECE7;
 }
-body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.6;min-height:100vh}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.6;min-height:100vh}
 
 /* HEADER */
 .header{background:var(--text);color:#F7F4EF;padding:2rem 1.5rem 1.75rem;position:relative;overflow:hidden}
 .header::before{content:'';position:absolute;top:-50px;right:-50px;width:200px;height:200px;border-radius:50%;background:rgba(82,183,136,.1)}
 .hi{max-width:980px;margin:0 auto;position:relative;z-index:1}
 .hlabel{font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--accent2);margin-bottom:.4rem}
-.header h1{font-family:'DM Serif Display',Georgia,serif;font-size:clamp(1.8rem,4vw,2.6rem);font-weight:400;line-height:1.1;margin-bottom:.5rem}
+.header h1{font-family:Georgia,'Times New Roman',serif;font-size:clamp(1.8rem,4vw,2.6rem);font-weight:400;line-height:1.1;margin-bottom:.5rem}
 .hsub{font-size:13px;color:rgba(247,244,239,.55);max-width:460px}
 .hstats{display:flex;gap:1.75rem;margin-top:1.25rem;flex-wrap:wrap}
-.hstat-val{font-family:'DM Serif Display',serif;font-size:1.6rem;color:var(--accent2)}
+.hstat-val{font-family:Georgia,serif;font-size:1.6rem;color:var(--accent2)}
 .hstat-label{font-size:11px;color:rgba(247,244,239,.45);margin-top:1px}
 
 /* NAV */
@@ -43,12 +43,12 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(-
 .sec-label{font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 .6rem}
 .phase-head{margin-bottom:1.25rem}
 .phase-badge{display:inline-flex;align-items:center;gap:6px;background:var(--accent-light);color:var(--accent);font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:4px 10px;border-radius:99px;margin-bottom:.6rem}
-.phase-title{font-family:'DM Serif Display',serif;font-size:1.5rem;margin-bottom:.25rem}
+.phase-title{font-family:Georgia,serif;font-size:1.5rem;margin-bottom:.25rem}
 .phase-desc{color:var(--muted);font-size:13px;max-width:580px}
 
 /* CARDS */
 .card{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius);padding:1rem 1.1rem;margin-bottom:.75rem}
-.card h3{font-family:'DM Serif Display',serif;font-size:1.05rem;margin-bottom:.6rem;display:flex;align-items:center;gap:7px}
+.card h3{font-family:Georgia,serif;font-size:1.05rem;margin-bottom:.6rem;display:flex;align-items:center;gap:7px}
 .card h3 .ico{font-size:15px}
 
 /* GRID */
@@ -78,7 +78,7 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(-
 .phasebar{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:1.25rem}
 .pstat{border-radius:var(--radius-sm);padding:.7rem .85rem;background:var(--surface2)}
 .pstat-label{font-size:11px;color:var(--muted);margin-bottom:2px}
-.pstat-val{font-family:'DM Serif Display',serif;font-size:1.3rem;color:var(--accent)}
+.pstat-val{font-family:Georgia,serif;font-size:1.3rem;color:var(--accent)}
 
 /* WORKOUT LOGGER */
 .logger{background:var(--surface);border:.5px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:.75rem}
@@ -108,7 +108,7 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(-
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:500;align-items:center;justify-content:center}
 .modal-overlay.open{display:flex}
 .modal{background:var(--surface);border-radius:var(--radius);padding:1.25rem;max-width:400px;width:90%;max-height:80vh;overflow-y:auto}
-.modal h3{font-family:'DM Serif Display',serif;font-size:1.1rem;margin-bottom:.5rem}
+.modal h3{font-family:Georgia,serif;font-size:1.1rem;margin-bottom:.5rem}
 .modal p{font-size:13px;color:var(--muted);line-height:1.65;margin-bottom:.75rem}
 .modal .alts{font-size:12px;color:var(--muted);background:var(--surface2);border-radius:var(--radius-sm);padding:.6rem .75rem}
 .modal .alts strong{color:var(--text);font-weight:600}
@@ -118,7 +118,7 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(-
 /* TRACKING */
 .overview-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem;margin-bottom:1.25rem}
 .ov-card{background:var(--surface);border:.5px solid var(--border);border-radius:var(--radius);padding:.9rem;text-align:center}
-.ov-num{font-family:'DM Serif Display',serif;font-size:1.8rem;color:var(--accent)}
+.ov-num{font-family:Georgia,serif;font-size:1.8rem;color:var(--accent)}
 .ov-sub{font-size:11px;color:var(--muted);margin-top:2px}
 .tbl-wrap{overflow-x:auto}
 table{width:100%;border-collapse:collapse;font-size:12px}
@@ -147,7 +147,7 @@ tr:hover td{background:var(--surface2)}
 .stat-card{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius);padding:.85rem 1rem}
 .stat-label{font-size:11px;color:var(--muted);margin-bottom:3px;display:flex;align-items:center;gap:5px}
 .stat-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
-.stat-val{font-family:'DM Serif Display',serif;font-size:1.75rem}
+.stat-val{font-family:Georgia,serif;font-size:1.75rem}
 .stat-sub{font-size:11px;color:var(--muted);margin-top:2px}
 .zone-bar{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius);padding:.85rem 1rem;margin-bottom:1.25rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
 .zone-pill{font-size:12px;font-weight:600;padding:4px 14px;border-radius:99px}
@@ -183,7 +183,6 @@ tr:hover td{background:var(--surface2)}
 .upload-btn:hover{background:#0F6E56}
 
 </style>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 </head>
 <body>
 
@@ -958,10 +957,12 @@ function showTab(id){
 }
 
 // ─── INIT ─────────────────────────────────────────────────────────────────────
-renderLogWeekBar();
-renderLog(currentWeekNum());
-renderSchedBar();
-renderNut('p1');
+document.addEventListener('DOMContentLoaded', function() {
+  renderLogWeekBar();
+  renderLog(currentWeekNum());
+  renderSchedBar();
+  renderNut('p1');
+});
 
 
 // ─── PMC DATA ─────────────────────────────────────────────────────────────────
@@ -1200,6 +1201,7 @@ function handleCSVUpload(event){
 let pmcInitialised=false;
 function initPMC(){
   if(pmcInitialised) return;
+  if(typeof Chart==='undefined'){ setTimeout(initPMC,200); return; }
   pmcInitialised=true;
   pmcPopulateStats();
   pmcBuildMain(42);
@@ -1208,5 +1210,6 @@ function initPMC(){
 }
 
 </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 </body>
 </html>
