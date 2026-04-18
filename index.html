@@ -1,0 +1,1212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>12-Week GLP-1 Training Plan</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#F7F4EF;--surface:#FFF;--surface2:#F0ECE5;--text:#1C1A17;--muted:#7A7570;
+  --accent:#2D6A4F;--accent2:#52B788;--accent-light:#D8F3DC;
+  --bike:#1B4332;--bike-light:#B7E4C7;--gym:#3D405B;--gym-light:#D4D5E6;
+  --hike:#7B6E2F;--hike-light:#EAE2B7;--rest:#8B7355;--rest-light:#EDE0CC;
+  --border:#E2DBD0;--radius:12px;--radius-sm:8px;
+  --phase-end:#D8F3DC;--phase-hyp:#E8F4F8;--phase-str:#EDE0CC;--phase-pow:#FAECE7;
+}
+body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.6;min-height:100vh}
+
+/* HEADER */
+.header{background:var(--text);color:#F7F4EF;padding:2rem 1.5rem 1.75rem;position:relative;overflow:hidden}
+.header::before{content:'';position:absolute;top:-50px;right:-50px;width:200px;height:200px;border-radius:50%;background:rgba(82,183,136,.1)}
+.hi{max-width:980px;margin:0 auto;position:relative;z-index:1}
+.hlabel{font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--accent2);margin-bottom:.4rem}
+.header h1{font-family:'DM Serif Display',Georgia,serif;font-size:clamp(1.8rem,4vw,2.6rem);font-weight:400;line-height:1.1;margin-bottom:.5rem}
+.hsub{font-size:13px;color:rgba(247,244,239,.55);max-width:460px}
+.hstats{display:flex;gap:1.75rem;margin-top:1.25rem;flex-wrap:wrap}
+.hstat-val{font-family:'DM Serif Display',serif;font-size:1.6rem;color:var(--accent2)}
+.hstat-label{font-size:11px;color:rgba(247,244,239,.45);margin-top:1px}
+
+/* NAV */
+.nav{background:var(--surface);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
+.nav-inner{max-width:980px;margin:0 auto;display:flex;overflow-x:auto;padding:0 1rem}
+.nav-btn{font-size:13px;font-weight:500;color:var(--muted);background:none;border:none;border-bottom:2px solid transparent;padding:.85rem .8rem;cursor:pointer;white-space:nowrap;transition:color .15s,border-color .15s}
+.nav-btn:hover{color:var(--text)}
+.nav-btn.active{color:var(--accent);border-bottom-color:var(--accent)}
+
+/* MAIN */
+.main{max-width:980px;margin:0 auto;padding:1.75rem 1.25rem 4rem}
+.panel{display:none}.panel.active{display:block}
+
+/* SECTION HEADERS */
+.sec-label{font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 .6rem}
+.phase-head{margin-bottom:1.25rem}
+.phase-badge{display:inline-flex;align-items:center;gap:6px;background:var(--accent-light);color:var(--accent);font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:4px 10px;border-radius:99px;margin-bottom:.6rem}
+.phase-title{font-family:'DM Serif Display',serif;font-size:1.5rem;margin-bottom:.25rem}
+.phase-desc{color:var(--muted);font-size:13px;max-width:580px}
+
+/* CARDS */
+.card{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius);padding:1rem 1.1rem;margin-bottom:.75rem}
+.card h3{font-family:'DM Serif Display',serif;font-size:1.05rem;margin-bottom:.6rem;display:flex;align-items:center;gap:7px}
+.card h3 .ico{font-size:15px}
+
+/* GRID */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:.75rem}
+.three{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.75rem}
+@media(max-width:620px){.two,.three{grid-template-columns:1fr}}
+
+/* WEEK SELECTOR */
+.week-bar{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:1.25rem}
+.wbtn{font-size:12px;font-weight:500;padding:4px 11px;border-radius:99px;border:.5px solid var(--border);background:var(--surface);color:var(--muted);cursor:pointer;transition:all .15s}
+.wbtn:hover{background:var(--surface2);color:var(--text)}
+.wbtn.active{background:var(--text);color:var(--bg);border-color:var(--text)}
+.wbtn.phase-end{border-color:#95D5B2}.wbtn.phase-hyp{border-color:#A8D4E6}.wbtn.phase-str{border-color:#D4B896}.wbtn.phase-pow{border-color:#F5C4B3}
+
+/* WEEK DAY GRID */
+.daygrid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin-bottom:1.25rem}
+.daycard{border-radius:var(--radius-sm);padding:.55rem .4rem;text-align:center;border:1px solid transparent}
+.daycard .dname{font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;margin-bottom:3px}
+.daycard .dico{font-size:17px;margin:2px 0 3px}
+.daycard .dtype{font-size:10px;font-weight:500;line-height:1.3}
+.day-bike{background:var(--bike-light);border-color:#95D5B2}.day-bike .dname,.day-bike .dtype{color:var(--bike)}
+.day-gym{background:var(--gym-light);border-color:#B4B6D4}.day-gym .dname,.day-gym .dtype{color:var(--gym)}
+.day-hike{background:var(--hike-light);border-color:#C9BA6A}.day-hike .dname,.day-hike .dtype{color:var(--hike)}
+.day-rest{background:var(--rest-light);border-color:#D4B896}.day-rest .dname,.day-rest .dtype{color:var(--rest)}
+
+/* PHASE INFO BAR */
+.phasebar{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:1.25rem}
+.pstat{border-radius:var(--radius-sm);padding:.7rem .85rem;background:var(--surface2)}
+.pstat-label{font-size:11px;color:var(--muted);margin-bottom:2px}
+.pstat-val{font-family:'DM Serif Display',serif;font-size:1.3rem;color:var(--accent)}
+
+/* WORKOUT LOGGER */
+.logger{background:var(--surface);border:.5px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:.75rem}
+.logger-head{padding:.65rem 1rem;background:var(--surface2);display:flex;align-items:center;justify-content:space-between;border-bottom:.5px solid var(--border)}
+.logger-head h4{font-size:13px;font-weight:600;color:var(--text)}
+.logger-sub{font-size:11px;color:var(--muted)}
+.ex-row{display:grid;grid-template-columns:1fr repeat(3,80px) 90px;gap:6px;align-items:center;padding:.45rem 1rem;border-bottom:.5px solid var(--border);font-size:12px}
+.ex-row:last-child{border-bottom:none}
+.ex-row:hover{background:var(--surface2)}
+.ex-name{font-weight:500;color:var(--text);display:flex;align-items:center;gap:5px}
+.ex-name button.info-btn{background:none;border:none;font-size:11px;color:var(--accent2);cursor:pointer;padding:0 2px;opacity:.7}
+.ex-name button.info-btn:hover{opacity:1}
+.ex-col-label{font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);text-align:center}
+.ex-input{width:100%;font-size:12px;text-align:center;padding:4px 5px;border:.5px solid var(--border);border-radius:6px;background:var(--bg);color:var(--text);transition:border-color .15s}
+.ex-input:focus{outline:none;border-color:var(--accent2);background:var(--surface)}
+.ex-status{text-align:center;font-size:11px;font-weight:500}
+.status-up{color:#2D6A4F}.status-same{color:#7A7570}.status-down{color:#C0392B}.status-new{color:#7A7570}
+.cbp-badge{display:inline-block;font-size:10px;font-weight:600;padding:1px 7px;border-radius:99px;background:#E8F4F8;color:#1A5C7A;margin-left:4px;white-space:nowrap}
+.sw-badge{display:inline-block;font-size:10px;font-weight:600;padding:1px 7px;border-radius:99px;background:var(--gym-light);color:var(--gym);margin-left:4px;white-space:nowrap}
+.no-cbp{padding:.85rem 1rem;font-size:12px;color:var(--muted);font-style:italic}
+
+/* COACH TIP */
+.coach-tip{border-left:3px solid var(--accent2);padding:.6rem .8rem;background:var(--accent-light);border-radius:0;margin-bottom:.75rem;font-size:12px;color:var(--text);line-height:1.6}
+.coach-tip strong{font-weight:600}
+
+/* EXERCISE INFO MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:500;align-items:center;justify-content:center}
+.modal-overlay.open{display:flex}
+.modal{background:var(--surface);border-radius:var(--radius);padding:1.25rem;max-width:400px;width:90%;max-height:80vh;overflow-y:auto}
+.modal h3{font-family:'DM Serif Display',serif;font-size:1.1rem;margin-bottom:.5rem}
+.modal p{font-size:13px;color:var(--muted);line-height:1.65;margin-bottom:.75rem}
+.modal .alts{font-size:12px;color:var(--muted);background:var(--surface2);border-radius:var(--radius-sm);padding:.6rem .75rem}
+.modal .alts strong{color:var(--text);font-weight:600}
+.modal-close{float:right;background:none;border:.5px solid var(--border);border-radius:6px;padding:3px 10px;font-size:12px;color:var(--muted);cursor:pointer;margin-top:-4px}
+.modal-close:hover{background:var(--surface2)}
+
+/* TRACKING */
+.overview-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem;margin-bottom:1.25rem}
+.ov-card{background:var(--surface);border:.5px solid var(--border);border-radius:var(--radius);padding:.9rem;text-align:center}
+.ov-num{font-family:'DM Serif Display',serif;font-size:1.8rem;color:var(--accent)}
+.ov-sub{font-size:11px;color:var(--muted);margin-top:2px}
+.tbl-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{text-align:left;padding:.45rem .7rem;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);border-bottom:.5px solid var(--border)}
+td{padding:.55rem .7rem;border-bottom:.5px solid var(--border);vertical-align:top}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(--surface2)}
+
+/* SUBMIT BTN */
+.submit-row{margin-top:1rem;display:flex;gap:8px;align-items:center}
+.btn-primary{font-size:13px;font-weight:500;padding:9px 18px;border-radius:var(--radius-sm);border:none;background:var(--text);color:var(--bg);cursor:pointer;transition:opacity .15s}
+.btn-primary:hover{opacity:.85}
+.btn-ghost{font-size:13px;padding:9px 18px;border-radius:var(--radius-sm);border:.5px solid var(--border);background:transparent;color:var(--muted);cursor:pointer}
+.btn-ghost:hover{background:var(--surface2)}
+.save-msg{font-size:12px;color:var(--accent2);display:none}
+.save-msg.show{display:inline}
+
+/* LEGEND */
+.legend{display:flex;gap:.9rem;flex-wrap:wrap;margin-bottom:1rem}
+.leg-item{display:flex;align-items:center;gap:4px;font-size:11px;color:var(--muted)}
+.leg-dot{width:10px;height:10px;border-radius:2px}
+
+/* ─── PMC TAB ─────────────────────────────────────────────────────────────── */
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1.25rem}
+@media(max-width:580px){.stat-grid{grid-template-columns:1fr 1fr}}
+.stat-card{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius);padding:.85rem 1rem}
+.stat-label{font-size:11px;color:var(--muted);margin-bottom:3px;display:flex;align-items:center;gap:5px}
+.stat-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.stat-val{font-family:'DM Serif Display',serif;font-size:1.75rem}
+.stat-sub{font-size:11px;color:var(--muted);margin-top:2px}
+.zone-bar{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius);padding:.85rem 1rem;margin-bottom:1.25rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
+.zone-pill{font-size:12px;font-weight:600;padding:4px 14px;border-radius:99px}
+.zone-optimal{background:#D8F3DC;color:#1B4332}
+.zone-training{background:#E8F4F8;color:#0C447C}
+.zone-fatigued{background:#FCEBEB;color:#A32D2D}
+.zone-fresh{background:#FAEEDA;color:#854F0B}
+.zone-desc{font-size:12px;color:var(--muted);flex:1}
+.chart-card{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius);padding:1.1rem;margin-bottom:1rem}
+.chart-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:.85rem;flex-wrap:wrap;gap:.5rem}
+.chart-title{font-size:14px;font-weight:500}
+.range-bar{display:flex;gap:5px}
+.rbtn{font-size:11px;padding:3px 10px;border-radius:99px;border:0.5px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;transition:all .15s}
+.rbtn:hover{background:var(--surface2);color:var(--text)}
+.rbtn.active{background:var(--text);color:var(--bg);border-color:var(--text)}
+.pmc-legend{display:flex;gap:1.2rem;flex-wrap:wrap;margin-bottom:.75rem}
+.pmc-leg{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--muted)}
+.pmc-leg-line{width:22px;height:3px;border-radius:2px;flex-shrink:0}
+.pmc-leg-bar{width:12px;height:12px;border-radius:2px;flex-shrink:0}
+.tbl-card{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:1rem}
+.tbl-head-bar{padding:.7rem 1rem;background:var(--surface2);border-bottom:0.5px solid var(--border);font-size:13px;font-weight:500}
+.pmc-pill{display:inline-block;font-size:10px;font-weight:600;padding:2px 7px;border-radius:99px}
+.pill-bike{background:#E1F5EE;color:#0F6E56}
+.pill-gym{background:#D4D5E6;color:#3D405B}
+.pill-hike{background:#EAE2B7;color:#7B6E2F}
+.pill-z3{background:#E8F4F8;color:#0C447C}
+.pill-rpe{background:#EDE0CC;color:#8B7355}
+.pmc-assumptions{background:var(--surface2);border:0.5px solid var(--border);border-radius:var(--radius);padding:.85rem 1rem;margin-bottom:1rem;font-size:12px;color:var(--muted)}
+.pmc-upload{background:var(--accent-light);border:0.5px solid #9FE1CB;border-radius:var(--radius);padding:1rem 1.1rem;margin-bottom:1rem}
+.pmc-upload h4{font-size:13px;font-weight:600;color:#0F6E56;margin-bottom:.35rem}
+.pmc-upload p{font-size:12px;color:#0F6E56;line-height:1.6}
+.upload-btn{font-size:12px;font-weight:500;padding:7px 14px;border-radius:var(--radius-sm);border:1px solid #1D9E75;background:#1D9E75;color:#fff;cursor:pointer;margin-top:.5rem}
+.upload-btn:hover{background:#0F6E56}
+
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+</head>
+<body>
+
+<div class="header">
+  <div class="hi">
+    <div class="hlabel">GLP-1 + Peaks Coaching Group</div>
+    <h1>12-Week Training &amp;<br>Strength Log</h1>
+    <div class="hsub">Started Apr 20, 2025 · Ends Jul 6, 2025 · Cycling, strength &amp; nutrition with live logging</div>
+    <div class="hstats">
+      <div><div class="hstat-val">225→200</div><div class="hstat-label">lbs target</div></div>
+      <div><div class="hstat-val">PCG</div><div class="hstat-label">Strength program</div></div>
+      <div><div class="hstat-val">SW + CBP</div><div class="hstat-label">Dual routines</div></div>
+      <div><div class="hstat-val">12 wks</div><div class="hstat-label">Progressive plan</div></div>
+    </div>
+  </div>
+</div>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <button class="nav-btn active" onclick="showTab('overview')">Overview</button>
+    <button class="nav-btn" onclick="showTab('log')">Workout Log</button>
+    <button class="nav-btn" onclick="showTab('schedule')">Schedule</button>
+    <button class="nav-btn" onclick="showTab('nutrition')">Nutrition</button>
+    <button class="nav-btn" onclick="showTab('tracking')">Progress</button>
+    <button class="nav-btn" onclick="showTab('pmc')">PMC / TSB</button>
+  </div>
+</nav>
+
+<div class="main">
+
+<!-- OVERVIEW -->
+<div id="overview" class="panel active">
+  <div class="phase-head">
+    <div class="phase-badge">Program Structure</div>
+    <div class="phase-title">Peaks Coaching Group periodization</div>
+    <div class="phase-desc">Your gym work follows the PCG 12-week model — two distinct routines (SW = Strength Workout, CBP = Core/Balance/Plyometrics) that evolve through 5 training phases.</div>
+  </div>
+
+  <div class="two">
+    <div class="card">
+      <h3><span class="ico">📋</span> Two routines per gym day</h3>
+      <ul style="list-style:none">
+        <li style="padding:.45rem 0;border-bottom:.5px solid var(--border);font-size:13px"><strong>SW — Strength Workout</strong><br><span style="color:var(--muted);font-size:12px">Bench press, lat pulldown, seated row, tricep pulldown, bicep curl, leg press, leg extension, leg curl, calf raise, back extension, ab curl, leg tucked rotation</span></li>
+        <li style="padding:.45rem 0;font-size:13px"><strong>CBP — Core / Balance / Plyometrics</strong><br><span style="color:var(--muted);font-size:12px">Slow side kicks, Bulgarian squat, knee balance, ball row, two-point push-up, Turkish get-ups, split squat jumps, lateral box push-off, lateral jumps</span></li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3><span class="ico">📈</span> 12-week periodization (PCG)</h3>
+      <ul style="list-style:none">
+        <li style="padding:.35rem 0;border-bottom:.5px solid var(--border);font-size:13px;display:flex;justify-content:space-between"><span><strong>Wk 1–2</strong> Endurance / Adaptation</span><span style="font-size:11px;color:var(--muted)">60–70% · 20 reps · 3 sets</span></li>
+        <li style="padding:.35rem 0;border-bottom:.5px solid var(--border);font-size:13px;display:flex;justify-content:space-between"><span><strong>Wk 3, 6</strong> Hypertrophy</span><span style="font-size:11px;color:var(--muted)">80% · 8–10 reps · 4–5 sets</span></li>
+        <li style="padding:.35rem 0;border-bottom:.5px solid var(--border);font-size:13px;display:flex;justify-content:space-between"><span><strong>Wk 4, 7–8</strong> Strength</span><span style="font-size:11px;color:var(--muted)">95% · 3–6 reps · 4–6 sets</span></li>
+        <li style="padding:.35rem 0;border-bottom:.5px solid var(--border);font-size:13px;display:flex;justify-content:space-between"><span><strong>Wk 9</strong> Power</span><span style="font-size:11px;color:var(--muted)">99% · 2–4 reps · 3–4 sets</span></li>
+        <li style="padding:.35rem 0;font-size:13px;display:flex;justify-content:space-between"><span><strong>Wk 5, 10–12</strong> Endurance / Recovery</span><span style="font-size:11px;color:var(--muted)">70% · 15–20 reps · 2–4 sets</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="coach-tip"><strong>Coach note — GLP-1 &amp; the PCG plan:</strong> The PCG program was designed for off-season cyclists. It aligns well with your situation — the early endurance/adaptation phase (Wks 1–2) matches your GLP-1 ramp-up period when you shouldn't yet be pushing hard. The strength phases (Wks 4, 7–8) are critical for muscle preservation as appetite suppression deepens. Log every session so we can catch strength decline early.</div>
+
+  <div class="two">
+    <div class="card">
+      <h3><span class="ico">🚴</span> Cycling integration</h3>
+      <ul style="list-style:none">
+        <li style="padding:.35rem 0;border-bottom:.5px solid var(--border);font-size:12px;color:var(--muted)"><strong style="color:var(--text)">Tuesday</strong> — Zone 2 steady, 60–75 min</li>
+        <li style="padding:.35rem 0;border-bottom:.5px solid var(--border);font-size:12px;color:var(--muted)"><strong style="color:var(--text)">Thursday</strong> — Steady (Wks 1–4) / Intervals (Wks 5+)</li>
+        <li style="padding:.35rem 0;font-size:12px;color:var(--muted)"><strong style="color:var(--text)">Saturday</strong> — Long ride, 90–120 min</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3><span class="ico">🏋️</span> Gym days</h3>
+      <ul style="list-style:none">
+        <li style="padding:.35rem 0;border-bottom:.5px solid var(--border);font-size:12px;color:var(--muted)"><strong style="color:var(--text)">Monday</strong> — SW upper + CBP (Wks 3+)</li>
+        <li style="padding:.35rem 0;border-bottom:.5px solid var(--border);font-size:12px;color:var(--muted)"><strong style="color:var(--text)">Wednesday</strong> — Rest/Mobility (Wks 1–4) / Full gym (Wks 5+)</li>
+        <li style="padding:.35rem 0;font-size:12px;color:var(--muted)"><strong style="color:var(--text)">Friday</strong> — SW lower + CBP</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- WORKOUT LOG -->
+<div id="log" class="panel">
+  <div class="phase-head">
+    <div class="phase-badge">Live Workout Logger</div>
+    <div class="phase-title">Log sets, reps &amp; weight</div>
+    <div class="phase-desc">Select a week, then log your SW and CBP numbers. Your data is saved locally and tracked over time. The coach button sends a full report for feedback.</div>
+  </div>
+
+  <div class="week-bar" id="logWeekBar"></div>
+
+  <div class="phasebar" id="phasebar"></div>
+
+  <div class="coach-tip" id="weekCoachTip"></div>
+
+  <div id="swLogger"></div>
+  <div id="cbpLogger"></div>
+
+  <div class="submit-row">
+    <button class="btn-primary" onclick="saveAndCoach()">Save &amp; send to coach ↗</button>
+    <button class="btn-ghost" onclick="saveLocal()">Save locally</button>
+    <span class="save-msg" id="saveMsg">✓ Saved</span>
+  </div>
+</div>
+
+<!-- SCHEDULE -->
+<div id="schedule" class="panel">
+  <div class="phase-head">
+    <div class="phase-badge">Weekly Schedule</div>
+    <div class="phase-title">Day-by-day view</div>
+    <div class="phase-desc">Click any week to see the daily layout and that week's focus notes.</div>
+  </div>
+  <div class="week-bar" id="schedWeekBar"></div>
+  <div id="schedDetail"></div>
+</div>
+
+<!-- NUTRITION -->
+<div id="nutrition" class="panel">
+  <div class="phase-head">
+    <div class="phase-badge">Nutrition Plan</div>
+    <div class="phase-title">Diet by phase</div>
+  </div>
+  <div class="week-bar" id="nutPhaseBar">
+    <button class="wbtn active" onclick="showNut('p1',this)">Phase 1 — Wks 1–4</button>
+    <button class="wbtn" onclick="showNut('p2',this)">Phase 2 — Wks 5–8</button>
+    <button class="wbtn" onclick="showNut('p3',this)">Phase 3 — Wks 9–12</button>
+  </div>
+  <div id="nutDetail"></div>
+</div>
+
+<!-- TRACKING -->
+<div id="tracking" class="panel">
+  <div class="phase-head">
+    <div class="phase-badge">Progress Tracking</div>
+    <div class="phase-title">Milestones &amp; warning signs</div>
+  </div>
+  <div class="overview-grid">
+    <div class="ov-card"><div class="ov-num">Weekly</div><div class="ov-sub">Weigh-in — same day, morning</div></div>
+    <div class="ov-card"><div class="ov-num">Monthly</div><div class="ov-sub">Waist + hip measurements</div></div>
+    <div class="ov-card"><div class="ov-num">Wk 12</div><div class="ov-sub">Labs: A1C, glucose, lipids, kidneys</div></div>
+  </div>
+  <div class="card">
+    <h3><span class="ico">⚠️</span> Warning signs &amp; responses</h3>
+    <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Signal</th><th>Likely cause</th><th>Action</th></tr></thead>
+      <tbody>
+        <tr><td>Lifts dropping 3+ weeks</td><td>Muscle loss — protein or calories too low</td><td>Add 30–40g protein/day, check total intake</td></tr>
+        <tr><td>Exhausted on rides that felt easy</td><td>Under-fueling — too few carbs around rides</td><td>Add 30–50g carbs pre-ride, check weekly calories</td></tr>
+        <tr><td>No weight change 3+ weeks</td><td>Plateau — common weeks 8–10</td><td>Track food honestly 5 days; discuss dose with doctor</td></tr>
+        <tr><td>Nausea blocking eating</td><td>GLP-1 dose side effect</td><td>Smaller protein-dense meals; discuss timing with doctor</td></tr>
+        <tr><td>Weight dropping &gt;2 lbs/week</td><td>Deficit too aggressive</td><td>Add 150–200 cal, prioritize protein</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+  <div class="two">
+    <div class="card">
+      <h3><span class="ico">🎯</span> Milestone targets</h3>
+      <ul style="list-style:none">
+        <li style="padding:.4rem 0;border-bottom:.5px solid var(--border);font-size:12px"><strong>End of Week 4</strong><br><span style="color:var(--muted)">Gym habit solid. 2–4 lbs down. Lifts maintained. GLP-1 at 0.5mg.</span></li>
+        <li style="padding:.4rem 0;border-bottom:.5px solid var(--border);font-size:12px"><strong>End of Week 8</strong><br><span style="color:var(--muted)">6–10 lbs down. Appetite clearly suppressed. Fasting glucose trending down.</span></li>
+        <li style="padding:.4rem 0;font-size:12px"><strong>End of Week 12</strong><br><span style="color:var(--muted)">10–15 lbs down. A1C improved. Lifts stronger than Week 1.</span></li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3><span class="ico">📊</span> Weekly check-in questions</h3>
+      <ul style="list-style:none">
+        <li style="padding:.4rem 0;border-bottom:.5px solid var(--border);font-size:12px;color:var(--muted)">How were energy levels on rides?</li>
+        <li style="padding:.4rem 0;border-bottom:.5px solid var(--border);font-size:12px;color:var(--muted)">Did lifts go up, stay same, or drop?</li>
+        <li style="padding:.4rem 0;border-bottom:.5px solid var(--border);font-size:12px;color:var(--muted)">Did I hit protein 5+ of 7 days?</li>
+        <li style="padding:.4rem 0;border-bottom:.5px solid var(--border);font-size:12px;color:var(--muted)">How was sleep quality?</li>
+        <li style="padding:.4rem 0;font-size:12px;color:var(--muted)">Any GLP-1 side effects to report?</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+
+<!-- PMC TAB -->
+<div id="pmc" class="panel">
+  <div class="phase-head">
+    <div class="phase-badge">Performance Management Chart</div>
+    <div class="phase-title">Training Stress Balance (TSB)</div>
+    <div class="phase-desc">Live PMC built from your TrainingPeaks data. Upload a new CSV export weekly to refresh. FTP 180W · EWMA method (CTL 42d, ATL 7d)</div>
+  </div>
+
+  <div class="pmc-upload">
+    <h4>Update with new TrainingPeaks data</h4>
+    <p>Export a Workout Summary CSV from TrainingPeaks (Settings → Export Data) covering the past week, then upload it here to recalculate your PMC.</p>
+    <input type="file" id="csvUpload" accept=".csv" style="display:none" onchange="handleCSVUpload(event)">
+    <button class="upload-btn" onclick="document.getElementById('csvUpload').click()">Upload TP CSV ↑</button>
+    <span id="uploadStatus" style="font-size:12px;color:#0F6E56;margin-left:10px;display:none">✓ Recalculated</span>
+  </div>
+
+  <div class="stat-grid">
+    <div class="stat-card">
+      <div class="stat-label"><span class="stat-dot" style="background:#185FA5"></span>CTL — Fitness</div>
+      <div class="stat-val" style="color:#185FA5" id="ctlVal">—</div>
+      <div class="stat-sub">42-day avg · today</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label"><span class="stat-dot" style="background:#C0392B"></span>ATL — Fatigue</div>
+      <div class="stat-val" style="color:#C0392B" id="atlVal">—</div>
+      <div class="stat-sub">7-day avg · today</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label"><span class="stat-dot" style="background:#2D6A4F"></span>TSB — Form</div>
+      <div class="stat-val" style="color:#2D6A4F" id="tsbVal">—</div>
+      <div class="stat-sub">CTL − ATL · today</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label"><span class="stat-dot" style="background:var(--accent2)"></span>Program start TSB</div>
+      <div class="stat-val" style="color:var(--accent2)" id="startTSBVal">−2.2</div>
+      <div class="stat-sub">Apr 20, 2026</div>
+    </div>
+  </div>
+
+  <div class="zone-bar">
+    <span style="font-size:12px;font-weight:500">Current form:</span>
+    <span class="zone-pill" id="pmcZonePill">—</span>
+    <span class="zone-desc" id="pmcZoneDesc">—</span>
+  </div>
+
+  <div class="pmc-assumptions">
+    <strong style="color:var(--text)">Calculation method:</strong> &nbsp;FTP 180W for power-based TSS (bike rides) · Gym sessions: 1h 20min × RPE 5 → 33 TSS · Hikes: 2hrs × RPE 5 → 50 TSS · EWMA: CTL k=42d, ATL k=7d (TrainingPeaks standard)
+  </div>
+
+  <div class="chart-card">
+    <div class="chart-header">
+      <span class="chart-title">Performance Management Chart</span>
+      <div class="range-bar">
+        <button class="rbtn active" onclick="pmcSetRange(42,this)">6 wk</button>
+        <button class="rbtn" onclick="pmcSetRange(84,this)">12 wk</button>
+        <button class="rbtn" onclick="pmcSetRange(999,this)">All</button>
+      </div>
+    </div>
+    <div class="pmc-legend">
+      <div class="pmc-leg"><div class="pmc-leg-line" style="background:#185FA5"></div>CTL — Fitness</div>
+      <div class="pmc-leg"><div class="pmc-leg-line" style="background:#C0392B"></div>ATL — Fatigue</div>
+      <div class="pmc-leg"><div class="pmc-leg-line" style="background:#2D6A4F"></div>TSB — Form</div>
+      <div class="pmc-leg"><div class="pmc-leg-bar" style="background:#1B4332;opacity:.7"></div>Bike TSS</div>
+      <div class="pmc-leg"><div class="pmc-leg-bar" style="background:#3D405B;opacity:.7"></div>Gym TSS</div>
+      <div class="pmc-leg"><div class="pmc-leg-bar" style="background:#7B6E2F;opacity:.7"></div>Hike TSS</div>
+    </div>
+    <div style="position:relative;height:300px">
+      <canvas id="pmcChart" role="img" aria-label="Performance Management Chart showing CTL fitness (blue), ATL fatigue (red), TSB form (green) and daily TSS bars from March 2026. Vertical dashed line marks program start April 20.">CTL rises from 0 to 11 by April 20. ATL oscillates with each workout. TSB stays mildly negative throughout.</canvas>
+    </div>
+    <div style="margin-top:.6rem;font-size:11px;color:var(--muted);display:flex;gap:.75rem;flex-wrap:wrap">
+      <span>◈ Dashed line = Apr 20 program start &nbsp;|&nbsp; Hover for daily values</span>
+    </div>
+  </div>
+
+  <div class="chart-card">
+    <div class="chart-header"><span class="chart-title">Daily TSS — all activities</span></div>
+    <div style="position:relative;height:150px">
+      <canvas id="tssBarChart" role="img" aria-label="Bar chart of TSS per workout — bike rides dark green ~52 TSS, hike amber 50 TSS, gym slate 33 TSS."></canvas>
+    </div>
+  </div>
+
+  <div class="tbl-card">
+    <div class="tbl-head-bar">All logged activities — Mar 10 to Apr 16, 2026</div>
+    <div class="scroll-x">
+    <table>
+      <thead><tr>
+        <th>Date</th><th>Activity</th><th>Type</th><th>TSS</th><th>Method</th><th>CTL after</th><th>TSB after</th>
+      </tr></thead>
+      <tbody id="pmcActTable"></tbody>
+    </table>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <h3><span class="icon">⚡</span> Coach read — entering Week 1</h3>
+    <ul class="workout-list">
+      <li class="workout-item"><div class="workout-dot dot-gym"></div><div><strong>CTL 11.0, TSB −2.2 at program start (Apr 20).</strong><span>A genuine but modest fitness base — appropriate for a clean 12-week build. TSB of −2.2 is essentially neutral: not tired, not undertrained. Perfect entry point.</span></div></li>
+      <li class="workout-item"><div class="workout-dot dot-bike"></div><div><strong>FTP 180W confirmed — you're working at 63–74% of threshold on the trainer.</strong><span>Your Zone 2 ride (IF 0.63) was genuinely aerobic. Structured sessions at IF ~0.71–0.74 are upper Zone 2 to low Zone 3. Solid base work, not junk miles.</span></div></li>
+      <li class="workout-item"><div class="workout-dot dot-any"></div><div><strong>Weekly TSS has been 100–160 TSS/week from cycling alone.</strong><span>Adding 3 gym sessions in Week 5+ (~100 TSS) plus 3 bike rides (~165 TSS) will push weekly load to 250–265 TSS/week. ATL will spike in Weeks 5–8 — this is expected and normal.</span></div></li>
+      <li class="workout-item"><div class="workout-dot dot-any"></div><div><strong>Target CTL trajectory.</strong><span>CTL should reach ~25–30 by Week 8 and ~35–40 by Week 12 if training is consistent. Recreational cyclists typically operate in the 30–60 CTL range.</span></div></li>
+      <li class="workout-item"><div class="workout-dot dot-bike"></div><div><strong>Upload your TP CSV each Sunday.</strong><span>Use the Upload button above to refresh this chart weekly. Export from TrainingPeaks: Settings → Export Data → Workout Summary → last 7 days.</span></div></li>
+    </ul>
+  </div>
+
+</div>
+
+</div><!-- /main -->
+
+<!-- EXERCISE INFO MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal" id="modalBox">
+    <button class="modal-close" onclick="document.getElementById('modalOverlay').classList.remove('open')">✕ close</button>
+    <h3 id="modalTitle"></h3>
+    <p id="modalDesc"></p>
+    <div class="alts" id="modalAlts"></div>
+  </div>
+</div>
+
+<script>
+// ─── DATA ─────────────────────────────────────────────────────────────────────
+
+const PCG_WEEKS = [
+  {w:1, phase:'Endurance / Adaptation', intensity:'Low',    effort:'60%', reps:'20',    sets:3,  note:'Go easy — first week. Focus on form over load. CBP not yet included.', glp:'0.25mg starting dose. No appetite effects yet.', cbp:false},
+  {w:2, phase:'Endurance',              intensity:'Low',    effort:'70%', reps:'15–20', sets:3,  note:'Begin recording weights for every SW exercise. Still no CBP.', glp:'0.25mg. No significant changes expected.', cbp:false},
+  {w:3, phase:'Hypertrophy',            intensity:'Med',    effort:'80%', reps:'8–10',  sets:4,  note:'Last rep should now be to exhaustion. CBP begins this week alongside SW.', glp:'0.25mg → 0.5mg at doctor visit.', cbp:true},
+  {w:4, phase:'Strength',               intensity:'High',   effort:'95%', reps:'3–6',   sets:4,  note:'High intensity. Record max weights carefully. This is a true strength week.', glp:'0.5mg. Appetite may begin to reduce.', cbp:true},
+  {w:5, phase:'Endurance',              intensity:'Low',    effort:'70%', reps:'15–20', sets:4,  note:'Deload-style recovery week. Lighter weights, higher reps. 3rd gym day (Wed) begins.', glp:'0.5mg. Hunger reduction clearer now.', cbp:true},
+  {w:6, phase:'Hypertrophy',            intensity:'Med',    effort:'80%', reps:'8–10',  sets:5,  note:'Volume increases. 5 sets this week. Focus on muscle sensation, not just weight.', glp:'0.5mg → 1.0mg possible.', cbp:true},
+  {w:7, phase:'Strength',               intensity:'High',   effort:'95%', reps:'3–6',   sets:5,  note:'Peak strength phase begins. Expect personal records on compound lifts.', glp:'1.0mg. Peak appetite suppression.', cbp:true},
+  {w:8, phase:'Strength',               intensity:'High',   effort:'95%', reps:'3–6',   sets:6,  note:'Highest volume strength week. 6 sets on SW. Check lifts vs Week 4 baseline.', glp:'1.0mg. Labs due if scheduled.', cbp:true},
+  {w:9, phase:'Power',                  intensity:'High',   effort:'99%', reps:'2–4',   sets:4,  note:'Power phase — near max effort, explosive movements. Very low reps, full recovery between sets.', glp:'1.0mg. Plateau risk begins.', cbp:true},
+  {w:10, phase:'Endurance',             intensity:'Low',    effort:'70%', reps:'15–20', sets:2,  note:'Recovery week — only 2 sets. Do not skip this. Adaptation happens during rest.', glp:'1.0mg. Discuss continuation with doctor.', cbp:true},
+  {w:11, phase:'Endurance',             intensity:'Low',    effort:'70%', reps:'15–20', sets:3,  note:'Building back up. Aim to exceed Week 10 performance. Review measurements.', glp:'1.0mg. Track body comp, not just scale.', cbp:true},
+  {w:12, phase:'Endurance',             intensity:'Low',    effort:'70%', reps:'15–20', sets:3,  note:'Final week. Celebrate Saturday long ride. Schedule labs. Document everything vs Week 1.', glp:'1.0mg. Plan Month 4+ with your doctor.', cbp:true},
+];
+
+const SW_EXERCISES = [
+  {id:'bench',   name:'Bench Press',        desc:'Lie on bench, bar hovering just over chest, elbows bent, hands slightly wider than shoulders. Push straight up, lower until elbows just below chest level. Do not lock elbows at top.', alts:'Dumbbell flat press · Incline/decline bench · Smith machine flat press'},
+  {id:'latpull', name:'Lat Pull-down',       desc:'Sit at pulldown station, feet flat, thighs under pad. Wide overhand grip. Pull bar to upper chest squeezing shoulder blades, control return to full extension. Keep torso upright.', alts:'Pull-ups · Barbell row · Lateral raise'},
+  {id:'row',     name:'Seated Row',          desc:'Sit with knees slightly bent, reach for handle with outstretched arms without curling lower back. Pull handle to lower abdomen squeezing shoulder blades together. Control return.', alts:'Dumbbell rows · Barbell bent row · One arm row'},
+  {id:'tri',     name:'Tri Pulldown',        desc:'Stand upright, elbows tight to sides. Press bar down until arms fully extended, pause and flex triceps. Raise bar slowly to about top of abdominals. Elbows stay in tight throughout.', alts:'Dumbbell standing tricep extension · Tricep extension'},
+  {id:'bicep',   name:'Bicep Curl',          desc:'Stand shoulder width, underhand grip. Bar hangs at thighs. Curl to shoulder level pausing at top. Lower slowly to start. Knees relaxed throughout, no swinging.', alts:'Dumbbell alternating bicep curls'},
+  {id:'legp',    name:'Leg Press',           desc:'Back and head against pad, feet hip width on plate, heels flat, knees ~90°. Brace abs, push through heels extending knees and hips. Do not lock out knees. Control return.', alts:'Lunges · Squats'},
+  {id:'legex',   name:'Leg Extension',       desc:'Sit on padded seat, hook feet under bar at comfortable ankle position. Extend legs straight with effort, control return. Do not use to test maximum — choose a sustainable weight.', alts:'Box/bench step-ups · 1-leg squats · Jumping squats'},
+  {id:'legcurl', name:'Leg Curl',            desc:'Lie face down, pads at ankles. Curl pads toward buttocks as far as possible, breathing out on effort. Lower under control. Pads should not be too high on calf.', alts:'Swiss ball ham curl · Deadlifts'},
+  {id:'calf',    name:'Calf Raise',          desc:'Stand hip-width, raise heels until on tip-toes, hold briefly at top. Lower until heels almost touch floor and immediately begin next rep. Controlled throughout.', alts:'Smith machine calf extensions · Calf rock-ups'},
+  {id:'backext', name:'Back Extension',      desc:'Lie face down on mat, hands on floor or behind head (advanced). Contract abs throughout. Squeeze back to lift chest a few inches off floor. Do not hyperextend.', alts:'Superman'},
+  {id:'abcurl',  name:'Ab Curl',             desc:'Lie flat, feet flat or knees up at 45°. Hands lightly behind neck (not pulling). Exhale while slowly lifting chest from midway up the back. No momentum — pure abdominal contraction.', alts:'Modified roll-ups'},
+  {id:'legrot',  name:'Leg Tucked Rotation', desc:'Face up, legs flexed and interlocked. Clasp med ball with both hands at center of upper body. Slowly rotate side to side maintaining control throughout the movement.', alts:'Medicine ball bicycle kicks'},
+];
+
+const CBP_EXERCISES = [
+  {id:'sidekick', name:'Slow Side Kicks',      desc:'Perform a martial arts side kick in slow motion, hold at the end point as high as you can for as long as possible. 4 reps each side.', alts:'Wall sits'},
+  {id:'bulgarin', name:'Bulgarian Split Squat', desc:'One leg resting on a bench behind you, squat down using the front leg as in a normal squat. Can use bodyweight, dumbbells, or barbell. Switch legs.', alts:'Wall sits · Squats with dumbbells'},
+  {id:'knebal',   name:'Knee Balance',          desc:'Balance on an exercise ball on your knees for as long as possible without support. Total 2 minutes balance time across however many attempts needed.', alts:''},
+  {id:'ballrow',  name:'Ball Row',              desc:'Lie chest on exercise ball, feet on bench of equal height. Hold dumbbell in each hand and perform a double dumbbell row, squeezing shoulder blades together.', alts:'Dumbbell rows'},
+  {id:'twopt',    name:'Two-Point Push-Up',     desc:'A push-up with only one arm and one leg touching the floor. Maintain a rigid plank body line. Very challenging — modify to standard push-up if needed initially.', alts:'Push-up · Modified push-up'},
+  {id:'tgu',      name:'Turkish Get-Up',        desc:'Lie on floor holding weight overhead. Stand up while keeping weight balanced above you the whole time, then return to floor. That is one rep. Perform 5 each side alternating.', alts:''},
+  {id:'ssjump',   name:'Split Squat Jumps',     desc:'Staggered stance, lower into lunge then explosively jump vertically switching feet in the air. Land with opposite foot forward. Full plantar flexion at takeoff.', alts:'Wall sits'},
+  {id:'lbpush',   name:'Lateral Box Push-Off',  desc:'Stand beside box, place one foot on top. Push off using that leg only, explode as high as possible driving arms up. Land with opposite foot on box. 20 total (10/leg).', alts:''},
+  {id:'latjump',  name:'Lateral Jumps',          desc:'Stand beside obstacle. Bring knees up and jump laterally over it. Land on both feet and immediately jump back. No pausing between jumps or sinking into a squat.', alts:''},
+];
+
+const NUT_DATA = {
+  p1:{cal:'1,950–2,100',protein:'140–160g',carbs:'180–220g',fat:'65–80g',
+    note:'GLP-1 appetite effects minimal. Eat normal-sized meals. Priority is building the protein habit.',
+    bike:[
+      {t:'7:00 AM',n:'Pre-ride breakfast',d:'Oats ½ cup + 2 eggs + banana. ~500 cal, 35g protein, 65g carbs.'},
+      {t:'Post-ride',n:'Recovery shake',d:'35g protein shake + fruit within 45 min of finishing.'},
+      {t:'12:30 PM',n:'Lunch',d:'Grilled chicken 200g + chickpeas + salad + olive oil. ~550 cal, 50g protein.'},
+      {t:'4:00 PM',n:'Snack',d:'Greek yogurt 200g + berries + almond butter. ~300 cal, 20g protein.'},
+      {t:'7:00 PM',n:'Dinner',d:'Salmon 180g + sweet potato + broccoli + olive oil. ~550 cal, 42g protein.'},
+    ],
+    gym:[
+      {t:'7:30 AM',n:'Breakfast',d:'3 eggs + 2 egg whites + 2 slices whole grain toast + avocado. ~500 cal, 38g protein.'},
+      {t:'Pre-gym',n:'Pre-workout',d:'Banana + protein bar or small shake 60 min before if gym is afternoon.'},
+      {t:'Post-gym',n:'Recovery shake',d:'35g protein within 30 min. Most important timing of the day.'},
+      {t:'12:30 PM',n:'Lunch',d:'Turkey + hummus wrap + cottage cheese 150g. ~480 cal, 48g protein.'},
+      {t:'7:00 PM',n:'Dinner',d:'Chicken thighs 200g + quinoa ¾ cup + roasted veg. ~550 cal, 48g protein.'},
+      {t:'9:00 PM',n:'Evening',d:'Casein shake or cottage cheese 200g. Overnight muscle repair.'},
+    ],
+    tips:['Eat 3 meals + 1–2 snacks regardless of hunger level','Batch cook proteins Sunday — chicken, eggs, Greek yogurt','Keep protein shakes accessible at all times','Drink 80–100 oz water daily; add electrolytes on bike days']
+  },
+  p2:{cal:'1,750–1,950',protein:'160–180g',carbs:'150–180g',fat:'55–70g',
+    note:'Appetite suppression is now real. Eat by schedule not hunger. More carbs Tue/Thu/Sat, fewer other days.',
+    bike:[
+      {t:'7:00 AM',n:'Pre-ride (mandatory)',d:'Do not skip even if not hungry — fasted GLP-1 riding is risky. Same structure as Phase 1.'},
+      {t:'On bike',n:'Fueling (75+ min)',d:'20–30g carbs/hr — dates, banana, diluted sports drink. Do not rely on hunger.'},
+      {t:'Post-ride',n:'Recovery (critical)',d:'35–40g protein + simple carbs within 45 min. Most important window.'},
+      {t:'12:30 PM',n:'Lunch',d:'Chicken or tuna + brown rice ½ cup + large veg portion. ~480 cal, 48g protein.'},
+      {t:'7:00 PM',n:'Dinner',d:'Lean protein + non-starchy veg + small fat. ~430 cal, 42g protein.'},
+    ],
+    gym:[
+      {t:'7:30 AM',n:'Breakfast',d:'Protein-forward: 4 eggs + turkey + spinach. Skip toast on non-bike gym days. ~420 cal, 42g protein.'},
+      {t:'Pre-gym',n:'Pre-workout',d:'20g protein + 30g carbs, 30–60 min before. Half shake + banana.'},
+      {t:'Post-gym',n:'Recovery',d:'40g protein shake within 30 min. Do not miss this window.'},
+      {t:'12:30 PM',n:'Lunch',d:'Large protein portion + legumes + salad. Aim for 50g protein at this meal.'},
+      {t:'7:00 PM',n:'Dinner',d:'Lean protein + vegetables + small healthy fat. Low carbs on non-bike days.'},
+      {t:'9:00 PM',n:'Casein',d:'200g cottage cheese — overnight protein synthesis matters in a deficit.'},
+    ],
+    tips:['Eat 3 meals even if only hungry for 1 — schedule over hunger','Track food 3 days/week minimum — GLP-1 masks under-eating','If a full meal is impossible: liquid protein + nuts counts','Add fiber supplement if constipation develops — very common now']
+  },
+  p3:{cal:'1,750–1,900',protein:'165–180g',carbs:'145–170g',fat:'55–68g',
+    note:'Body adapting. Food quality and precision matter more than quantity. Protect muscle through protein and progressive lifting.',
+    bike:[
+      {t:'7:00 AM',n:'Pre-ride',d:'Larger carb focus: 55–70g carbs + 35g protein. Oats with protein powder or whole grain bagel + PB + eggs.'},
+      {t:'On bike',n:'Fueling',d:'Consistent 20–30g carbs/hr. You are leaner — glycogen stores slightly smaller. Fuel proactively.'},
+      {t:'Post-ride',n:'Recovery',d:'40g protein + carbs within 45 min. Add creatine to this shake if not taking separately.'},
+      {t:'12:30 PM',n:'Lunch',d:'Protein + complex carbs + veg. Same quality as Phase 2 but total calories slightly tighter.'},
+      {t:'7:00 PM',n:'Dinner',d:'Lean protein + large veg + small healthy fat. Keep carbs lower on non-bike days.'},
+    ],
+    gym:[
+      {t:'7:30 AM',n:'Breakfast',d:'High protein: 4 eggs + Greek yogurt 150g + berries. ~420 cal, 50g protein.'},
+      {t:'Pre-gym',n:'Pre-workout',d:'Same as Phase 2. Do not train deep fasted at this point in the program.'},
+      {t:'Post-gym',n:'Recovery',d:'40g protein immediately. Phase 3 intensity is higher — recovery is more demanding.'},
+      {t:'12:30 PM',n:'Lunch',d:'50g+ protein. Chicken, fish, or lean beef with legumes as carb source.'},
+      {t:'7:00 PM',n:'Dinner',d:'Lean protein + non-starchy veg + olive oil. Simple and clean.'},
+      {t:'9:00 PM',n:'Casein',d:'200g cottage cheese or casein shake. Worth keeping long term.'},
+    ],
+    tips:['If scale plateaus, focus on body comp — are clothes fitting better?','Increase fiber to 30–35g/day — helps GLP-1 constipation and blood sugar','Begin thinking about maintenance nutrition at goal weight','Week 12: schedule labs, review with doctor, plan Month 4+']
+  }
+};
+
+const SCHED_DATA = [
+  {w:1,focus:'Establish your gym habit. Do not change cycling yet. Focus on form — video squats and deadlifts. Protein intake is your #1 task.'},
+  {w:2,focus:'Record weights on all SW exercises. Note how your Saturday long ride feels — this is your baseline. Still no CBP.'},
+  {w:3,focus:'CBP begins. Last SW rep should now be to exhaustion. Add 2.5–5 lbs to upper body lifts where form allows.'},
+  {w:4,focus:'True strength week — 95% effort. Heaviest weights of the plan so far. Benchmark: are lifts equal or above Week 1?'},
+  {w:5,focus:'Recovery week with lighter loads. Wednesday gym day begins. Thursday ride upgrades to intervals: 4×5 min hard.'},
+  {w:6,focus:'5 sets this week — higher volume. Push the Thursday intervals hard. Weigh-in check: 4–6 lbs down by now?'},
+  {w:7,focus:'Peak strength phase. Aim for personal records on compound lifts. Compare to Week 4 max weights.'},
+  {w:8,focus:'Highest volume strength week — 6 sets on SW. Major checkpoint: 6–10 lbs down, lifts stronger? Schedule doctor visit if labs are due.'},
+  {w:9,focus:'Power phase — explosive, near-max effort on every rep. Full rest between sets (2–3 min). Only 2–4 reps but maximum intensity.'},
+  {w:10,focus:'Deload — 2 sets only. This is not optional. Take a longer hike Sunday. Muscles grow during rest, not during work.'},
+  {w:11,focus:'Full training resumes. Aim to exceed Week 10. Review waist measurement — body comp matters more than scale now.'},
+  {w:12,focus:'Final week. Saturday long ride is a celebration. Schedule labs. Document every metric vs Week 1.'},
+];
+
+const DAY_TYPES = {
+  Mon:{p1:{t:'gym',l:'Gym — SW Upper',i:'🏋️'},  p2:{t:'gym',l:'Gym — SW + CBP',i:'🏋️'},  p3:{t:'gym',l:'Gym — SW + CBP',i:'🏋️'}},
+  Tue:{p1:{t:'bike',l:'Cycle — Zone 2',i:'🚴'},  p2:{t:'bike',l:'Cycle — Zone 2',i:'🚴'},  p3:{t:'bike',l:'Cycle — Zone 2',i:'🚴'}},
+  Wed:{p1:{t:'rest',l:'Rest / Mobility',i:'🧘'}, p2:{t:'gym',l:'Gym — Full Body',i:'🏋️'}, p3:{t:'gym',l:'Gym — Full Body',i:'🏋️'}},
+  Thu:{p1:{t:'bike',l:'Cycle — Steady',i:'🚴'},  p2:{t:'bike',l:'Cycle — Intervals',i:'🚴'},p3:{t:'bike',l:'Cycle — Intervals',i:'🚴'}},
+  Fri:{p1:{t:'gym',l:'Gym — SW Lower',i:'🏋️'},  p2:{t:'gym',l:'Gym — SW + CBP',i:'🏋️'},  p3:{t:'gym',l:'Gym — SW + CBP',i:'🏋️'}},
+  Sat:{p1:{t:'bike',l:'Long Ride',i:'🚴'},        p2:{t:'bike',l:'Long Ride',i:'🚴'},        p3:{t:'bike',l:'Long Ride',i:'🚴'}},
+  Sun:{p1:{t:'hike',l:'Hike / Rest',i:'🥾'},      p2:{t:'hike',l:'Hike / Rest',i:'🥾'},      p3:{t:'hike',l:'Hike / Rest',i:'🥾'}},
+};
+
+// ─── DATES ───────────────────────────────────────────────────────────────────
+const START_DATE = new Date(2025, 3, 20); // April 20, 2025 — Mon week 1
+
+function weekStart(w){
+  const d = new Date(START_DATE);
+  d.setDate(d.getDate() + (w-1)*7);
+  return d;
+}
+function weekEnd(w){
+  const d = weekStart(w);
+  d.setDate(d.getDate() + 6);
+  return d;
+}
+function fmtDate(d){
+  return d.toLocaleDateString('en-US',{month:'short',day:'numeric'});
+}
+function fmtDateFull(d){
+  return d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+}
+function weekRange(w){
+  return fmtDate(weekStart(w)) + ' – ' + fmtDate(weekEnd(w));
+}
+function currentWeekNum(){
+  const today = new Date();
+  const diffMs = today - START_DATE;
+  if(diffMs < 0) return 1;
+  const wk = Math.floor(diffMs / 86400000 / 7) + 1;
+  return Math.min(Math.max(wk,1),12);
+}
+
+function phaseKey(w){ return w<=4?'p1':w<=8?'p2':'p3'; }
+function dayPhase(w){ return w<=4?'p1':w<=8?'p2':'p3'; }
+function phaseClass(p){
+  const m={Endurance:'phase-end','Endurance / Adaptation':'phase-end',Hypertrophy:'phase-hyp',Strength:'phase-str',Power:'phase-pow'};
+  return m[p]||'phase-end';
+}
+
+// ─── STORAGE ─────────────────────────────────────────────────────────────────
+function storageKey(w,exId,field){ return `w${w}_${exId}_${field}`; }
+function saveVal(w,exId,field,val){ try{localStorage.setItem(storageKey(w,exId,field),val)}catch(e){} }
+function loadVal(w,exId,field){ try{return localStorage.getItem(storageKey(w,exId,field))||''}catch(e){return''} }
+function loadPrev(w,exId,field){ if(w<=1)return null; try{return localStorage.getItem(storageKey(w-1,exId,field))||null}catch(e){return null} }
+
+// ─── STATUS CALC ─────────────────────────────────────────────────────────────
+function calcStatus(w,exId){
+  const curW=parseFloat(loadVal(w,exId,'weight'));
+  const prevW=parseFloat(loadPrev(w,exId,'weight'));
+  if(isNaN(curW)||curW===0||isNaN(prevW)||prevW===0) return {cls:'status-new',label:'—'};
+  if(curW>prevW) return {cls:'status-up',label:'▲'};
+  if(curW<prevW) return {cls:'status-down',label:'▼'};
+  return {cls:'status-same',label:'='};
+}
+
+// ─── RENDER LOG ──────────────────────────────────────────────────────────────
+let currentLogWeek=1;
+
+function renderLogWeekBar(){
+  const bar=document.getElementById('logWeekBar');
+  bar.innerHTML='';
+  const curWk=currentWeekNum();
+  PCG_WEEKS.forEach(wd=>{
+    const b=document.createElement('button');
+    const isCur=(wd.w===curWk);
+    b.className='wbtn '+phaseClass(wd.phase)+(isCur?' active':'');
+    b.title=weekRange(wd.w);
+    b.innerHTML='Wk '+wd.w+(isCur?' <span style="font-size:9px;background:var(--accent2);color:#fff;border-radius:99px;padding:1px 5px;margin-left:3px;">NOW</span>':'');
+    b.onclick=()=>{
+      document.querySelectorAll('#logWeekBar .wbtn').forEach(x=>x.classList.remove('active'));
+      b.classList.add('active');
+      currentLogWeek=wd.w;
+      renderLog(wd.w);
+    };
+    bar.appendChild(b);
+  });
+  currentLogWeek=curWk;
+}
+
+function renderLog(w){
+  const wd=PCG_WEEKS[w-1];
+  // Phase bar
+  document.getElementById('phasebar').innerHTML=`
+    <div class="pstat"><div class="pstat-label">Week ${w} dates</div><div class="pstat-val" style="font-size:.85rem">${weekRange(w)}</div></div>
+    <div class="pstat"><div class="pstat-label">Phase · Effort</div><div class="pstat-val" style="font-size:.85rem">${wd.phase} · ${wd.effort}</div></div>
+    <div class="pstat"><div class="pstat-label">Reps</div><div class="pstat-val">${wd.reps}</div></div>
+    <div class="pstat"><div class="pstat-label">Sets</div><div class="pstat-val">${wd.sets}</div></div>
+  `;
+  // Coach tip
+  document.getElementById('weekCoachTip').innerHTML=`<strong>Week ${w} focus:</strong> ${wd.note}<br><span style="color:var(--muted)">GLP-1: ${wd.glp}</span>`;
+
+  // SW Logger
+  const swEl=document.getElementById('swLogger');
+  swEl.innerHTML=`
+    <div class="logger">
+      <div class="logger-head">
+        <h4>Strength Workout (SW) <span class="sw-badge">SW</span></h4>
+        <div class="logger-sub">${wd.sets} sets · ${wd.reps} reps · ${wd.effort} effort</div>
+      </div>
+      <div class="ex-row" style="background:var(--surface2)">
+        <div class="ex-col-label">Exercise</div>
+        <div class="ex-col-label">Weight (lbs)</div>
+        <div class="ex-col-label">Reps done</div>
+        <div class="ex-col-label">Sets done</div>
+        <div class="ex-col-label">vs last week</div>
+      </div>
+      ${SW_EXERCISES.map(ex=>{
+        const st=calcStatus(w,ex.id);
+        return `<div class="ex-row">
+          <div class="ex-name">
+            ${ex.name}
+            <button class="info-btn" onclick="showModal('${ex.id}','sw')" title="Exercise guide">ⓘ</button>
+          </div>
+          <input class="ex-input" type="number" step="2.5" placeholder="lbs"
+            value="${loadVal(w,ex.id,'weight')}"
+            oninput="saveVal(${w},'${ex.id}','weight',this.value);updateStatus(${w},'${ex.id}')">
+          <input class="ex-input" type="number" placeholder="reps"
+            value="${loadVal(w,ex.id,'reps')}"
+            oninput="saveVal(${w},'${ex.id}','reps',this.value)">
+          <input class="ex-input" type="number" placeholder="sets"
+            value="${loadVal(w,ex.id,'sets')}"
+            oninput="saveVal(${w},'${ex.id}','sets',this.value)">
+          <div class="ex-status ${st.cls}" id="status_${ex.id}">${st.label}</div>
+        </div>`;
+      }).join('')}
+      <div class="ex-row" style="background:var(--surface2);border-top:.5px solid var(--border)">
+        <div class="ex-col-label">Notes</div>
+        <input class="ex-input" type="text" placeholder="SW session notes..." style="grid-column:2/6"
+          value="${loadVal(w,'sw','notes')}"
+          oninput="saveVal(${w},'sw','notes',this.value)">
+      </div>
+    </div>
+  `;
+
+  // CBP Logger
+  const cbpEl=document.getElementById('cbpLogger');
+  if(!wd.cbp){
+    cbpEl.innerHTML=`<div class="logger"><div class="no-cbp">CBP (Core/Balance/Plyometrics) begins Week 3. Focus on SW form this week.</div></div>`;
+  } else {
+    cbpEl.innerHTML=`
+      <div class="logger">
+        <div class="logger-head">
+          <h4>Core / Balance / Plyometrics (CBP) <span class="cbp-badge">CBP</span></h4>
+          <div class="logger-sub">Body weight + balance work — log reps/time as applicable</div>
+        </div>
+        <div class="ex-row" style="background:var(--surface2)">
+          <div class="ex-col-label">Exercise</div>
+          <div class="ex-col-label">Weight / Load</div>
+          <div class="ex-col-label">Reps / Time</div>
+          <div class="ex-col-label">Sets</div>
+          <div class="ex-col-label">Notes</div>
+        </div>
+        ${CBP_EXERCISES.map(ex=>{
+          return `<div class="ex-row">
+            <div class="ex-name">
+              ${ex.name}
+              <button class="info-btn" onclick="showModal('${ex.id}','cbp')" title="Exercise guide">ⓘ</button>
+            </div>
+            <input class="ex-input" type="text" placeholder="BW / lbs"
+              value="${loadVal(w,'cbp_'+ex.id,'weight')}"
+              oninput="saveVal(${w},'cbp_'+ex.id,'weight',this.value)">
+            <input class="ex-input" type="text" placeholder="reps / sec"
+              value="${loadVal(w,'cbp_'+ex.id,'reps')}"
+              oninput="saveVal(${w},'cbp_'+ex.id,'reps',this.value)">
+            <input class="ex-input" type="number" placeholder="sets"
+              value="${loadVal(w,'cbp_'+ex.id,'sets')}"
+              oninput="saveVal(${w},'cbp_'+ex.id,'sets',this.value)">
+            <input class="ex-input" type="text" placeholder="note"
+              value="${loadVal(w,'cbp_'+ex.id,'note')}"
+              oninput="saveVal(${w},'cbp_'+ex.id,'note',this.value)">
+          </div>`;
+        }).join('')}
+        <div class="ex-row" style="background:var(--surface2);border-top:.5px solid var(--border)">
+          <div class="ex-col-label">Session notes</div>
+          <input class="ex-input" type="text" placeholder="CBP session notes..." style="grid-column:2/6"
+            value="${loadVal(w,'cbp','notes')}"
+            oninput="saveVal(${w},'cbp','notes',this.value)">
+        </div>
+      </div>
+    `;
+  }
+}
+
+function updateStatus(w,exId){
+  const st=calcStatus(w,exId);
+  const el=document.getElementById('status_'+exId);
+  if(el){el.className='ex-status '+st.cls;el.textContent=st.label;}
+}
+
+// ─── SAVE & COACH ─────────────────────────────────────────────────────────────
+function saveLocal(){
+  const msg=document.getElementById('saveMsg');
+  msg.classList.add('show');
+  setTimeout(()=>msg.classList.remove('show'),2000);
+}
+
+function saveAndCoach(){
+  const w=currentLogWeek;
+  const wd=PCG_WEEKS[w-1];
+  let lines=[
+    `📋 WORKOUT LOG — Week ${w} · ${weekRange(w)} (${wd.phase}, ${wd.effort} effort, ${wd.reps} reps, ${wd.sets} sets)`,
+    ``,`STRENGTH WORKOUT (SW):`
+  ];
+  SW_EXERCISES.forEach(ex=>{
+    const wt=loadVal(w,ex.id,'weight');
+    const rp=loadVal(w,ex.id,'reps');
+    const st=loadVal(w,ex.id,'sets');
+    const prev=loadPrev(w,ex.id,'weight');
+    const trend=wt&&prev?(parseFloat(wt)>parseFloat(prev)?'▲ UP':parseFloat(wt)<parseFloat(prev)?'▼ DOWN':'= SAME'):'first entry';
+    lines.push(`  ${ex.name}: ${wt||'—'} lbs × ${rp||'—'} reps × ${st||'—'} sets  [${trend}]`);
+  });
+  const swNote=loadVal(w,'sw','notes');
+  if(swNote) lines.push(`  SW Notes: ${swNote}`);
+  if(wd.cbp){
+    lines.push(``,`CORE/BALANCE/PLYOMETRICS (CBP):`);
+    CBP_EXERCISES.forEach(ex=>{
+      const wt=loadVal(w,'cbp_'+ex.id,'weight');
+      const rp=loadVal(w,'cbp_'+ex.id,'reps');
+      const st=loadVal(w,'cbp_'+ex.id,'sets');
+      lines.push(`  ${ex.name}: ${wt||'BW'} × ${rp||'—'} × ${st||'—'} sets`);
+    });
+    const cbpNote=loadVal(w,'cbp','notes');
+    if(cbpNote) lines.push(`  CBP Notes: ${cbpNote}`);
+  }
+  saveLocal();
+  if(typeof sendPrompt==='function') sendPrompt(lines.join('\n'));
+}
+
+// ─── MODAL ────────────────────────────────────────────────────────────────────
+function showModal(id,type){
+  const ex=(type==='sw'?SW_EXERCISES:CBP_EXERCISES).find(e=>e.id===id);
+  if(!ex) return;
+  document.getElementById('modalTitle').textContent=ex.name;
+  document.getElementById('modalDesc').textContent=ex.desc;
+  document.getElementById('modalAlts').innerHTML=ex.alts?`<strong>Alternates:</strong> ${ex.alts}`:'No listed alternates for this exercise.';
+  document.getElementById('modalOverlay').classList.add('open');
+}
+function closeModal(e){ if(e.target===document.getElementById('modalOverlay')) document.getElementById('modalOverlay').classList.remove('open'); }
+
+// ─── SCHEDULE ─────────────────────────────────────────────────────────────────
+function renderSchedBar(){
+  const bar=document.getElementById('schedWeekBar');
+  bar.innerHTML='';
+  const curWk=currentWeekNum();
+  PCG_WEEKS.forEach(wd=>{
+    const b=document.createElement('button');
+    const isCur=(wd.w===curWk);
+    b.className='wbtn '+phaseClass(wd.phase)+(isCur?' active':'');
+    b.title=weekRange(wd.w);
+    b.innerHTML='Wk '+wd.w+(isCur?' <span style="font-size:9px;background:var(--accent2);color:#fff;border-radius:99px;padding:1px 5px;margin-left:3px;">NOW</span>':'');
+    b.onclick=()=>{
+      document.querySelectorAll('#schedWeekBar .wbtn').forEach(x=>x.classList.remove('active'));
+      b.classList.add('active');
+      renderSchedDetail(wd.w);
+    };
+    bar.appendChild(b);
+  });
+  renderSchedDetail(curWk);
+}
+
+function renderSchedDetail(w){
+  const wd=PCG_WEEKS[w-1];
+  const sd=SCHED_DATA[w-1];
+  const pk=dayPhase(w);
+  const days=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  const ws=weekStart(w);
+  const dayCards=days.map((d,i)=>{
+    const info=DAY_TYPES[d][pk];
+    const dayDate=new Date(ws); dayDate.setDate(ws.getDate()+i);
+    const dayFmt=dayDate.toLocaleDateString('en-US',{month:'short',day:'numeric'});
+    const today=new Date(); today.setHours(0,0,0,0); dayDate.setHours(0,0,0,0);
+    const isToday=dayDate.getTime()===today.getTime();
+    const border=isToday?'border:2px solid var(--accent2);':'';
+    return `<div class="daycard day-${info.t}" style="${border}">
+      <div class="dname">${d}</div>
+      <div class="dico">${info.i}</div>
+      <div class="dtype">${info.l}</div>
+      <div style="font-size:9px;color:var(--muted);margin-top:3px">${dayFmt}${isToday?' ◉':''}</div>
+    </div>`;
+  }).join('');
+
+  document.getElementById('schedDetail').innerHTML=`
+    <div style="margin-bottom:.6rem;display:flex;align-items:baseline;gap:1rem;flex-wrap:wrap">
+      <span style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.08em">Week ${w} — ${wd.phase}</span>
+      <span style="font-size:12px;color:var(--accent);font-weight:500">${weekRange(w)}</span>
+    </div>
+    <div class="daygrid">${dayCards}</div>
+    <div class="two">
+      <div class="card">
+        <h3><span class="ico">🎯</span> Week ${w} focus</h3>
+        <p style="font-size:13px;color:var(--muted);margin-bottom:.75rem">${sd.focus}</p>
+        <p style="font-size:12px;color:var(--muted)"><strong style="color:var(--text)">GLP-1:</strong> ${wd.glp}</p>
+      </div>
+      <div class="card">
+        <h3><span class="ico">📊</span> PCG targets</h3>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+          <div class="pstat"><div class="pstat-label">Phase</div><div class="pstat-val" style="font-size:.95rem">${wd.phase}</div></div>
+          <div class="pstat"><div class="pstat-label">Effort</div><div class="pstat-val">${wd.effort}</div></div>
+          <div class="pstat"><div class="pstat-label">Reps</div><div class="pstat-val">${wd.reps}</div></div>
+          <div class="pstat"><div class="pstat-label">Sets</div><div class="pstat-val">${wd.sets}</div></div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+// ─── NUTRITION ────────────────────────────────────────────────────────────────
+function showNut(phase,btn){
+  document.querySelectorAll('#nutPhaseBar .wbtn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderNut(phase);
+}
+function renderNut(phase){
+  const d=NUT_DATA[phase];
+  const meals=(type)=>d[type].map(m=>`
+    <div style="padding:.45rem 0;border-bottom:.5px solid var(--border)">
+      <div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(--muted)">${m.t}</div>
+      <div style="font-size:13px;font-weight:500">${m.n}</div>
+      <div style="font-size:12px;color:var(--muted)">${m.d}</div>
+    </div>`).join('');
+  const tips=d.tips.map(t=>`<div style="display:flex;gap:8px;padding:.35rem 0;border-bottom:.5px solid var(--border);font-size:12px;color:var(--muted)"><span style="color:var(--accent2);flex-shrink:0">›</span>${t}</div>`).join('');
+
+  document.getElementById('nutDetail').innerHTML=`
+    <div class="card" style="margin-bottom:.75rem">
+      <p style="font-size:12px;color:var(--muted);margin-bottom:.75rem">${d.note}</p>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px">
+        <div class="pstat"><div class="pstat-label">Min calories</div><div class="pstat-val" style="font-size:1rem">${d.cal.split('–')[0]}</div></div>
+        <div class="pstat"><div class="pstat-label">Min protein</div><div class="pstat-val" style="font-size:1rem">${d.protein.split('–')[0]}</div></div>
+        <div class="pstat"><div class="pstat-label">Min carbs</div><div class="pstat-val" style="font-size:1rem">${d.carbs.split('–')[0]}</div></div>
+        <div class="pstat"><div class="pstat-label">Min fat</div><div class="pstat-val" style="font-size:1rem">${d.fat.split('–')[0]}</div></div>
+      </div>
+    </div>
+    <div class="two">
+      <div class="card"><h3><span class="ico">🚴</span> Bike day meals</h3>${meals('bike')}</div>
+      <div class="card"><h3><span class="ico">🏋️</span> Gym day meals</h3>${meals('gym')}</div>
+    </div>
+    <div class="card"><h3><span class="ico">💡</span> Phase tips</h3>${tips}</div>
+  `;
+}
+
+// ─── NAV ──────────────────────────────────────────────────────────────────────
+function showTab(id){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.target.classList.add('active');
+  if(id==='pmc') initPMC();
+}
+
+// ─── INIT ─────────────────────────────────────────────────────────────────────
+renderLogWeekBar();
+renderLog(currentWeekNum());
+renderSchedBar();
+renderNut('p1');
+
+
+// ─── PMC DATA ─────────────────────────────────────────────────────────────────
+<script>
+const PMC_DATA = [{"date": "2026-03-10", "tss": 53.7, "atl": 7.1, "ctl": 1.3, "tsb": -5.9, "is_program": false}, {"date": "2026-03-11", "tss": 0.0, "atl": 6.2, "ctl": 1.2, "tsb": -5.0, "is_program": false}, {"date": "2026-03-12", "tss": 55.7, "atl": 12.8, "ctl": 2.5, "tsb": -10.3, "is_program": false}, {"date": "2026-03-13", "tss": 0.0, "atl": 11.1, "ctl": 2.5, "tsb": -8.6, "is_program": false}, {"date": "2026-03-14", "tss": 0.0, "atl": 9.6, "ctl": 2.4, "tsb": -7.2, "is_program": false}, {"date": "2026-03-15", "tss": 0.0, "atl": 8.3, "ctl": 2.3, "tsb": -6.0, "is_program": false}, {"date": "2026-03-16", "tss": 0.0, "atl": 7.2, "ctl": 2.3, "tsb": -4.9, "is_program": false}, {"date": "2026-03-17", "tss": 0.0, "atl": 6.3, "ctl": 2.2, "tsb": -4.0, "is_program": false}, {"date": "2026-03-18", "tss": 39.7, "atl": 10.7, "ctl": 3.1, "tsb": -7.6, "is_program": false}, {"date": "2026-03-19", "tss": 52.9, "atl": 16.3, "ctl": 4.3, "tsb": -12.0, "is_program": false}, {"date": "2026-03-20", "tss": 0.0, "atl": 14.2, "ctl": 4.2, "tsb": -10.0, "is_program": false}, {"date": "2026-03-21", "tss": 50.0, "atl": 18.9, "ctl": 5.3, "tsb": -13.7, "is_program": false}, {"date": "2026-03-22", "tss": 0.0, "atl": 16.4, "ctl": 5.1, "tsb": -11.3, "is_program": false}, {"date": "2026-03-23", "tss": 33.3, "atl": 18.7, "ctl": 5.8, "tsb": -12.9, "is_program": false}, {"date": "2026-03-24", "tss": 52.9, "atl": 23.2, "ctl": 6.9, "tsb": -16.3, "is_program": false}, {"date": "2026-03-25", "tss": 0.0, "atl": 20.1, "ctl": 6.7, "tsb": -13.4, "is_program": false}, {"date": "2026-03-26", "tss": 52.6, "atl": 24.4, "ctl": 7.8, "tsb": -16.6, "is_program": false}, {"date": "2026-03-27", "tss": 0.0, "atl": 21.2, "ctl": 7.6, "tsb": -13.6, "is_program": false}, {"date": "2026-03-28", "tss": 0.0, "atl": 18.4, "ctl": 7.5, "tsb": -10.9, "is_program": false}, {"date": "2026-03-29", "tss": 0.0, "atl": 15.9, "ctl": 7.3, "tsb": -8.6, "is_program": false}, {"date": "2026-03-30", "tss": 0.0, "atl": 13.8, "ctl": 7.1, "tsb": -6.7, "is_program": false}, {"date": "2026-03-31", "tss": 0.0, "atl": 12.0, "ctl": 6.9, "tsb": -5.0, "is_program": false}, {"date": "2026-04-01", "tss": 52.5, "atl": 17.4, "ctl": 8.0, "tsb": -9.3, "is_program": false}, {"date": "2026-04-02", "tss": 0.0, "atl": 15.1, "ctl": 7.8, "tsb": -7.2, "is_program": false}, {"date": "2026-04-03", "tss": 0.0, "atl": 13.0, "ctl": 7.6, "tsb": -5.4, "is_program": false}, {"date": "2026-04-04", "tss": 52.5, "atl": 18.3, "ctl": 8.7, "tsb": -9.6, "is_program": false}, {"date": "2026-04-05", "tss": 0.0, "atl": 15.9, "ctl": 8.5, "tsb": -7.4, "is_program": false}, {"date": "2026-04-06", "tss": 0.0, "atl": 13.8, "ctl": 8.3, "tsb": -5.5, "is_program": false}, {"date": "2026-04-07", "tss": 52.4, "atl": 18.9, "ctl": 9.3, "tsb": -9.6, "is_program": false}, {"date": "2026-04-08", "tss": 0.0, "atl": 16.4, "ctl": 9.1, "tsb": -7.3, "is_program": false}, {"date": "2026-04-09", "tss": 52.4, "atl": 21.2, "ctl": 10.1, "tsb": -11.0, "is_program": false}, {"date": "2026-04-10", "tss": 0.0, "atl": 18.4, "ctl": 9.9, "tsb": -8.5, "is_program": false}, {"date": "2026-04-11", "tss": 52.4, "atl": 22.9, "ctl": 10.9, "tsb": -12.0, "is_program": false}, {"date": "2026-04-12", "tss": 0.0, "atl": 19.8, "ctl": 10.6, "tsb": -9.2, "is_program": false}, {"date": "2026-04-13", "tss": 0.0, "atl": 17.2, "ctl": 10.4, "tsb": -6.8, "is_program": false}, {"date": "2026-04-14", "tss": 52.5, "atl": 21.9, "ctl": 11.4, "tsb": -10.5, "is_program": false}, {"date": "2026-04-15", "tss": 0.0, "atl": 19.0, "ctl": 11.1, "tsb": -7.9, "is_program": false}, {"date": "2026-04-16", "tss": 52.4, "atl": 23.4, "ctl": 12.1, "tsb": -11.3, "is_program": false}, {"date": "2026-04-17", "tss": 0.0, "atl": 20.3, "ctl": 11.8, "tsb": -8.5, "is_program": false}, {"date": "2026-04-18", "tss": 0.0, "atl": 17.6, "ctl": 11.5, "tsb": -6.1, "is_program": false}, {"date": "2026-04-19", "tss": 0.0, "atl": 15.3, "ctl": 11.3, "tsb": -4.0, "is_program": false}, {"date": "2026-04-20", "tss": 0.0, "atl": 13.2, "ctl": 11.0, "tsb": -2.2, "is_program": true}, {"date": "2026-04-21", "tss": 0.0, "atl": 11.5, "ctl": 10.7, "tsb": -0.7, "is_program": true}, {"date": "2026-04-22", "tss": 0.0, "atl": 9.9, "ctl": 10.5, "tsb": 0.5, "is_program": true}, {"date": "2026-04-23", "tss": 0.0, "atl": 8.6, "ctl": 10.2, "tsb": 1.6, "is_program": true}, {"date": "2026-04-24", "tss": 0.0, "atl": 7.5, "ctl": 10.0, "tsb": 2.5, "is_program": true}, {"date": "2026-04-25", "tss": 0.0, "atl": 6.5, "ctl": 9.8, "tsb": 3.3, "is_program": true}, {"date": "2026-04-26", "tss": 0.0, "atl": 5.6, "ctl": 9.5, "tsb": 3.9, "is_program": true}, {"date": "2026-04-27", "tss": 0.0, "atl": 4.9, "ctl": 9.3, "tsb": 4.4, "is_program": true}, {"date": "2026-04-28", "tss": 0.0, "atl": 4.2, "ctl": 9.1, "tsb": 4.9, "is_program": true}, {"date": "2026-04-29", "tss": 0.0, "atl": 3.7, "ctl": 8.9, "tsb": 5.2, "is_program": true}, {"date": "2026-04-30", "tss": 0.0, "atl": 3.2, "ctl": 8.7, "tsb": 5.5, "is_program": true}, {"date": "2026-05-01", "tss": 0.0, "atl": 2.7, "ctl": 8.5, "tsb": 5.7, "is_program": true}, {"date": "2026-05-02", "tss": 0.0, "atl": 2.4, "ctl": 8.3, "tsb": 5.9, "is_program": true}, {"date": "2026-05-03", "tss": 0.0, "atl": 2.1, "ctl": 8.1, "tsb": 6.0, "is_program": true}, {"date": "2026-05-04", "tss": 0.0, "atl": 1.8, "ctl": 7.9, "tsb": 6.1, "is_program": true}, {"date": "2026-05-05", "tss": 0.0, "atl": 1.6, "ctl": 7.7, "tsb": 6.1, "is_program": true}, {"date": "2026-05-06", "tss": 0.0, "atl": 1.3, "ctl": 7.5, "tsb": 6.2, "is_program": true}, {"date": "2026-05-07", "tss": 0.0, "atl": 1.2, "ctl": 7.3, "tsb": 6.2, "is_program": true}, {"date": "2026-05-08", "tss": 0.0, "atl": 1.0, "ctl": 7.2, "tsb": 6.1, "is_program": true}, {"date": "2026-05-09", "tss": 0.0, "atl": 0.9, "ctl": 7.0, "tsb": 6.1, "is_program": true}, {"date": "2026-05-10", "tss": 0.0, "atl": 0.8, "ctl": 6.8, "tsb": 6.1, "is_program": true}, {"date": "2026-05-11", "tss": 0.0, "atl": 0.7, "ctl": 6.7, "tsb": 6.0, "is_program": true}, {"date": "2026-05-12", "tss": 0.0, "atl": 0.6, "ctl": 6.5, "tsb": 5.9, "is_program": true}, {"date": "2026-05-13", "tss": 0.0, "atl": 0.5, "ctl": 6.4, "tsb": 5.9, "is_program": true}, {"date": "2026-05-14", "tss": 0.0, "atl": 0.4, "ctl": 6.2, "tsb": 5.8, "is_program": true}, {"date": "2026-05-15", "tss": 0.0, "atl": 0.4, "ctl": 6.1, "tsb": 5.7, "is_program": true}, {"date": "2026-05-16", "tss": 0.0, "atl": 0.3, "ctl": 5.9, "tsb": 5.6, "is_program": true}, {"date": "2026-05-17", "tss": 0.0, "atl": 0.3, "ctl": 5.8, "tsb": 5.5, "is_program": true}, {"date": "2026-05-18", "tss": 0.0, "atl": 0.2, "ctl": 5.6, "tsb": 5.4, "is_program": true}, {"date": "2026-05-19", "tss": 0.0, "atl": 0.2, "ctl": 5.5, "tsb": 5.3, "is_program": true}, {"date": "2026-05-20", "tss": 0.0, "atl": 0.2, "ctl": 5.4, "tsb": 5.2, "is_program": true}, {"date": "2026-05-21", "tss": 0.0, "atl": 0.2, "ctl": 5.3, "tsb": 5.1, "is_program": true}, {"date": "2026-05-22", "tss": 0.0, "atl": 0.1, "ctl": 5.1, "tsb": 5.0, "is_program": true}, {"date": "2026-05-23", "tss": 0.0, "atl": 0.1, "ctl": 5.0, "tsb": 4.9, "is_program": true}, {"date": "2026-05-24", "tss": 0.0, "atl": 0.1, "ctl": 4.9, "tsb": 4.8, "is_program": true}, {"date": "2026-05-25", "tss": 0.0, "atl": 0.1, "ctl": 4.8, "tsb": 4.7, "is_program": true}, {"date": "2026-05-26", "tss": 0.0, "atl": 0.1, "ctl": 4.7, "tsb": 4.6, "is_program": true}, {"date": "2026-05-27", "tss": 0.0, "atl": 0.1, "ctl": 4.6, "tsb": 4.5, "is_program": true}, {"date": "2026-05-28", "tss": 0.0, "atl": 0.1, "ctl": 4.4, "tsb": 4.4, "is_program": true}, {"date": "2026-05-29", "tss": 0.0, "atl": 0.1, "ctl": 4.3, "tsb": 4.3, "is_program": true}, {"date": "2026-05-30", "tss": 0.0, "atl": 0.0, "ctl": 4.2, "tsb": 4.2, "is_program": true}, {"date": "2026-05-31", "tss": 0.0, "atl": 0.0, "ctl": 4.1, "tsb": 4.1, "is_program": true}, {"date": "2026-06-01", "tss": 0.0, "atl": 0.0, "ctl": 4.0, "tsb": 4.0, "is_program": true}, {"date": "2026-06-02", "tss": 0.0, "atl": 0.0, "ctl": 3.9, "tsb": 3.9, "is_program": true}, {"date": "2026-06-03", "tss": 0.0, "atl": 0.0, "ctl": 3.9, "tsb": 3.8, "is_program": true}, {"date": "2026-06-04", "tss": 0.0, "atl": 0.0, "ctl": 3.8, "tsb": 3.7, "is_program": true}, {"date": "2026-06-05", "tss": 0.0, "atl": 0.0, "ctl": 3.7, "tsb": 3.7, "is_program": true}, {"date": "2026-06-06", "tss": 0.0, "atl": 0.0, "ctl": 3.6, "tsb": 3.6, "is_program": true}, {"date": "2026-06-07", "tss": 0.0, "atl": 0.0, "ctl": 3.5, "tsb": 3.5, "is_program": true}, {"date": "2026-06-08", "tss": 0.0, "atl": 0.0, "ctl": 3.4, "tsb": 3.4, "is_program": true}, {"date": "2026-06-09", "tss": 0.0, "atl": 0.0, "ctl": 3.3, "tsb": 3.3, "is_program": true}, {"date": "2026-06-10", "tss": 0.0, "atl": 0.0, "ctl": 3.3, "tsb": 3.3, "is_program": true}, {"date": "2026-06-11", "tss": 0.0, "atl": 0.0, "ctl": 3.2, "tsb": 3.2, "is_program": true}, {"date": "2026-06-12", "tss": 0.0, "atl": 0.0, "ctl": 3.1, "tsb": 3.1, "is_program": true}, {"date": "2026-06-13", "tss": 0.0, "atl": 0.0, "ctl": 3.0, "tsb": 3.0, "is_program": true}, {"date": "2026-06-14", "tss": 0.0, "atl": 0.0, "ctl": 3.0, "tsb": 3.0, "is_program": true}, {"date": "2026-06-15", "tss": 0.0, "atl": 0.0, "ctl": 2.9, "tsb": 2.9, "is_program": true}, {"date": "2026-06-16", "tss": 0.0, "atl": 0.0, "ctl": 2.8, "tsb": 2.8, "is_program": true}, {"date": "2026-06-17", "tss": 0.0, "atl": 0.0, "ctl": 2.8, "tsb": 2.8, "is_program": true}, {"date": "2026-06-18", "tss": 0.0, "atl": 0.0, "ctl": 2.7, "tsb": 2.7, "is_program": true}, {"date": "2026-06-19", "tss": 0.0, "atl": 0.0, "ctl": 2.6, "tsb": 2.6, "is_program": true}, {"date": "2026-06-20", "tss": 0.0, "atl": 0.0, "ctl": 2.6, "tsb": 2.6, "is_program": true}, {"date": "2026-06-21", "tss": 0.0, "atl": 0.0, "ctl": 2.5, "tsb": 2.5, "is_program": true}, {"date": "2026-06-22", "tss": 0.0, "atl": 0.0, "ctl": 2.5, "tsb": 2.4, "is_program": true}, {"date": "2026-06-23", "tss": 0.0, "atl": 0.0, "ctl": 2.4, "tsb": 2.4, "is_program": true}, {"date": "2026-06-24", "tss": 0.0, "atl": 0.0, "ctl": 2.3, "tsb": 2.3, "is_program": true}, {"date": "2026-06-25", "tss": 0.0, "atl": 0.0, "ctl": 2.3, "tsb": 2.3, "is_program": true}, {"date": "2026-06-26", "tss": 0.0, "atl": 0.0, "ctl": 2.2, "tsb": 2.2, "is_program": true}, {"date": "2026-06-27", "tss": 0.0, "atl": 0.0, "ctl": 2.2, "tsb": 2.2, "is_program": true}, {"date": "2026-06-28", "tss": 0.0, "atl": 0.0, "ctl": 2.1, "tsb": 2.1, "is_program": true}, {"date": "2026-06-29", "tss": 0.0, "atl": 0.0, "ctl": 2.1, "tsb": 2.1, "is_program": true}, {"date": "2026-06-30", "tss": 0.0, "atl": 0.0, "ctl": 2.0, "tsb": 2.0, "is_program": true}, {"date": "2026-07-01", "tss": 0.0, "atl": 0.0, "ctl": 2.0, "tsb": 2.0, "is_program": true}, {"date": "2026-07-02", "tss": 0.0, "atl": 0.0, "ctl": 1.9, "tsb": 1.9, "is_program": true}, {"date": "2026-07-03", "tss": 0.0, "atl": 0.0, "ctl": 1.9, "tsb": 1.9, "is_program": true}, {"date": "2026-07-04", "tss": 0.0, "atl": 0.0, "ctl": 1.8, "tsb": 1.8, "is_program": true}, {"date": "2026-07-05", "tss": 0.0, "atl": 0.0, "ctl": 1.8, "tsb": 1.8, "is_program": true}, {"date": "2026-07-06", "tss": 0.0, "atl": 0.0, "ctl": 1.8, "tsb": 1.8, "is_program": true}];
+const WORKOUT_DATA = [{"date": "2026-03-10", "tss": 53.7, "title": "Indoor Cycling"}, {"date": "2026-03-12", "tss": 55.7, "title": "Indoor Cycling"}, {"date": "2026-03-18", "tss": 39.7, "title": "Zone 2 ride"}, {"date": "2026-03-19", "tss": 52.9, "title": "Indoor Cycling"}, {"date": "2026-03-21", "tss": 50.0, "title": "Hike \u2014 Triple Tree"}, {"date": "2026-03-23", "tss": 33.3, "title": "Strength \u2014 baseline"}, {"date": "2026-03-24", "tss": 52.9, "title": "Indoor Cycling"}, {"date": "2026-03-26", "tss": 52.6, "title": "Indoor Cycling"}, {"date": "2026-04-01", "tss": 52.5, "title": "Indoor Cycling"}, {"date": "2026-04-04", "tss": 52.5, "title": "Indoor Cycling"}, {"date": "2026-04-07", "tss": 52.4, "title": "Indoor Cycling"}, {"date": "2026-04-09", "tss": 52.4, "title": "Indoor Cycling"}, {"date": "2026-04-11", "tss": 52.4, "title": "Indoor Cycling"}, {"date": "2026-04-14", "tss": 52.5, "title": "Indoor Cycling"}, {"date": "2026-04-16", "tss": 52.4, "title": "Indoor Cycling"}];
+</script>
+
+// ─── PMC LOGIC ────────────────────────────────────────────────────────────────
+const PMC_TODAY = '2026-04-18';
+const PMC_PROG_START = '2026-04-20';
+const PMC_FTP = 180;
+
+function pmcFmtDate(str){
+  const d=new Date(str+'T00:00:00');
+  return d.toLocaleDateString('en-US',{month:'short',day:'numeric'});
+}
+
+function pmcGetZone(tsb){
+  if(tsb>=5&&tsb<=25) return {label:'Optimal form',cls:'zone-optimal',desc:'Fresh and fit — CTL > ATL. Ideal for key efforts.'};
+  if(tsb>=-10&&tsb<5)  return {label:'Training load',cls:'zone-training',desc:'Mild fatigue from recent work. Normal during a build phase — fitness is growing.'};
+  if(tsb<-10)           return {label:'Elevated fatigue',cls:'zone-fatigued',desc:'Significant fatigue. Consider a recovery day before the next hard effort.'};
+  return {label:'Very fresh',cls:'zone-fresh',desc:'Positive TSB — good before a key event, but check you are not detraining.'};
+}
+
+function pmcPopulateStats(){
+  const today=PMC_DATA.find(d=>d.date===PMC_TODAY)||PMC_DATA.slice(-1)[0];
+  document.getElementById('ctlVal').textContent=today.ctl;
+  document.getElementById('atlVal').textContent=today.atl;
+  document.getElementById('tsbVal').textContent=today.tsb;
+  const z=pmcGetZone(today.tsb);
+  document.getElementById('pmcZonePill').textContent=z.label;
+  document.getElementById('pmcZonePill').className='zone-pill '+z.cls;
+  document.getElementById('pmcZoneDesc').textContent=z.desc;
+}
+
+let pmcMainChart=null;
+function pmcBuildMain(rangedays){
+  const allIdx=PMC_DATA.findIndex(d=>d.date===PMC_TODAY);
+  const cutoff=rangedays>=999?0:Math.max(0,allIdx-rangedays+1);
+  const slice=PMC_DATA.slice(cutoff,allIdx+1);
+  const labels=slice.map(d=>d.date);
+  const progIdx=labels.indexOf(PMC_PROG_START);
+  if(pmcMainChart) pmcMainChart.destroy();
+  const ctx=document.getElementById('pmcChart').getContext('2d');
+  pmcMainChart=new Chart(ctx,{
+    type:'bar',
+    data:{labels,datasets:[
+      {type:'bar',label:'TSS',data:slice.map(d=>d.tss>0?d.tss:null),
+        backgroundColor:slice.map(d=>{
+          const w=WORKOUT_DATA.find(w=>w.date===d.date);
+          if(!w) return 'rgba(44,62,44,0.55)';
+          if(w.title.toLowerCase().includes('hike')) return 'rgba(123,110,47,0.75)';
+          if(w.title.toLowerCase().includes('strength')||w.title.toLowerCase().includes('baseline')) return 'rgba(61,64,91,0.75)';
+          return 'rgba(27,67,50,0.65)';
+        }),
+        borderWidth:0,yAxisID:'yTSS',order:4},
+      {type:'line',label:'CTL (Fitness)',data:slice.map(d=>d.ctl),borderColor:'#185FA5',borderWidth:2.5,pointRadius:0,pointHoverRadius:4,fill:false,tension:0.35,yAxisID:'yMain',order:1},
+      {type:'line',label:'ATL (Fatigue)',data:slice.map(d=>d.atl),borderColor:'#C0392B',borderWidth:2,pointRadius:0,pointHoverRadius:4,fill:false,tension:0.35,yAxisID:'yMain',order:2},
+      {type:'line',label:'TSB (Form)',data:slice.map(d=>d.tsb),borderColor:'#2D6A4F',borderWidth:2,pointRadius:0,pointHoverRadius:4,
+        fill:'origin',backgroundColor:slice.map(d=>d.tsb>=0?'rgba(45,106,79,0.1)':'rgba(192,57,43,0.07)'),
+        tension:0.35,yAxisID:'yMain',order:3},
+    ]},
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      interaction:{mode:'index',intersect:false},
+      plugins:{
+        legend:{display:false},
+        tooltip:{callbacks:{
+          title:c=>pmcFmtDate(c[0].label),
+          label:c=>{const v=c.parsed.y;return v===null?null:`${c.dataset.label}: ${v!==null?v.toFixed(1):''}`}
+        }},
+        annotation: progIdx>=0?{annotations:{prog:{type:'line',xMin:progIdx,xMax:progIdx,
+          borderColor:'#52B788',borderWidth:1.5,borderDash:[5,3],
+          label:{display:true,content:'Program start',position:'start',color:'#0F6E56',
+            font:{size:10},backgroundColor:'rgba(225,245,238,0.9)'}}}}:{}
+      },
+      scales:{
+        x:{ticks:{maxRotation:45,autoSkip:true,maxTicksLimit:10,font:{size:10},color:'#7A7570',
+            callback:(v,i)=>pmcFmtDate(labels[i])},grid:{color:'rgba(0,0,0,0.04)'}},
+        yMain:{type:'linear',position:'left',
+          title:{display:true,text:'CTL / ATL / TSB',font:{size:10},color:'#7A7570'},
+          ticks:{font:{size:10},color:'#7A7570'},grid:{color:'rgba(0,0,0,0.05)'}},
+        yTSS:{type:'linear',position:'right',max:120,
+          title:{display:true,text:'TSS/day',font:{size:10},color:'#7A7570'},
+          ticks:{font:{size:10},color:'#B4B6D4'},grid:{display:false}}
+      }
+    }
+  });
+}
+
+let pmcBarChart=null;
+function pmcBuildBar(){
+  if(pmcBarChart) pmcBarChart.destroy();
+  const ctx=document.getElementById('tssBarChart').getContext('2d');
+  const labels=WORKOUT_DATA.map(w=>pmcFmtDate(w.date));
+  const vals=WORKOUT_DATA.map(w=>w.tss);
+  const colors=WORKOUT_DATA.map(w=>{
+    if(w.title.toLowerCase().includes('hike')) return '#7B6E2F';
+    if(w.title.toLowerCase().includes('strength')||w.title.toLowerCase().includes('baseline')) return '#3D405B';
+    return '#1B4332';
+  });
+  pmcBarChart=new Chart(ctx,{
+    type:'bar',
+    data:{labels,datasets:[{label:'TSS',data:vals,backgroundColor:colors,borderRadius:4,borderSkipped:false}]},
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},
+        tooltip:{callbacks:{label:c=>`TSS: ${c.parsed.y.toFixed(1)}  — ${WORKOUT_DATA[c.dataIndex].title}`}}},
+      scales:{
+        x:{ticks:{font:{size:10},color:'#7A7570'},grid:{display:false}},
+        y:{min:0,max:75,ticks:{font:{size:10},color:'#7A7570'},grid:{color:'rgba(0,0,0,0.04)'}}
+      }
+    }
+  });
+}
+
+function pmcBuildTable(){
+  const pmcMap={};
+  PMC_DATA.forEach(d=>pmcMap[d.date]=d);
+  const tbody=document.getElementById('pmcActTable');
+  if(!tbody) return;
+  tbody.innerHTML='';
+  WORKOUT_DATA.forEach(w=>{
+    const p=pmcMap[w.date]||{};
+    const isBike=!w.title.toLowerCase().includes('hike')&&!w.title.toLowerCase().includes('strength')&&!w.title.toLowerCase().includes('baseline');
+    const isHike=w.title.toLowerCase().includes('hike');
+    const typeLabel=isBike?'Bike':isHike?'Hike':'Gym';
+    const typeCls=isBike?'pill-bike':isHike?'pill-hike':'pill-gym';
+    const method=isBike?'IF² × FTP 180W':isHike?'RPE 5 × 2hrs':'RPE 5 × 1h20m';
+    const methCls=isBike?'pill-z3':'pill-rpe';
+    const tsb=p.tsb||0;
+    const tsbColor=tsb<-10?'#C0392B':tsb>5?'#2D6A4F':'#7A7570';
+    tbody.innerHTML+=`<tr>
+      <td>${pmcFmtDate(w.date)}</td>
+      <td>${w.title}</td>
+      <td><span class="pmc-pill ${typeCls}">${typeLabel}</span></td>
+      <td><strong>${w.tss.toFixed(1)}</strong></td>
+      <td><span class="pmc-pill ${methCls}">${method}</span></td>
+      <td>${p.ctl||'—'}</td>
+      <td style="color:${tsbColor};font-weight:500">${p.tsb||'—'}</td>
+    </tr>`;
+  });
+}
+
+function pmcSetRange(days,btn){
+  document.querySelectorAll('.rbtn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  pmcBuildMain(days);
+}
+
+// ─── CSV UPLOAD HANDLER ───────────────────────────────────────────────────────
+function handleCSVUpload(event){
+  const file=event.target.files[0];
+  if(!file) return;
+  const reader=new FileReader();
+  reader.onload=function(e){
+    try{
+      const text=e.target.result;
+      const lines=text.split('\n');
+      const headers=lines[0].split(',').map(h=>h.trim().replace(/"/g,''));
+      const tssIdx=headers.indexOf('TSS');
+      const dateIdx=headers.indexOf('WorkoutDay');
+      const titleIdx=headers.indexOf('Title');
+      const ifIdx=headers.indexOf('IF');
+      const durationIdx=headers.indexOf('TimeTotalInHours');
+      const typeIdx=headers.indexOf('WorkoutType');
+      if(tssIdx<0||dateIdx<0){ alert('Could not find TSS or WorkoutDay columns. Please export a Workout Summary CSV from TrainingPeaks.'); return; }
+
+      // Parse new rides
+      const newRides=[];
+      for(let i=1;i<lines.length;i++){
+        const cols=lines[i].split(',');
+        if(cols.length<5) continue;
+        const date=(cols[dateIdx]||'').replace(/"/g,'').trim().split('T')[0];
+        const tssRaw=(cols[tssIdx]||'').replace(/"/g,'').trim();
+        const title=(titleIdx>=0?(cols[titleIdx]||'').replace(/"/g,'').trim():'Workout');
+        const type=(typeIdx>=0?(cols[typeIdx]||'').replace(/"/g,'').trim():'');
+        const hrs=parseFloat((durationIdx>=0?cols[durationIdx]||'0':'0').replace(/"/g,''))||0;
+        let tss=parseFloat(tssRaw)||0;
+        // Estimate TSS for non-bike activities
+        if(!tss && type==='Strength') tss=Math.round(hrs*(5/10)**2*100*10)/10;
+        if(!tss && type==='Walk') tss=Math.round(hrs*(5/10)**2*100*10)/10;
+        if(date && tss>0) newRides.push({date,tss,title});
+      }
+
+      if(newRides.length===0){ alert('No TSS data found in the uploaded file.'); return; }
+
+      // Merge with existing WORKOUT_DATA (avoid duplicates by date+title)
+      newRides.forEach(nr=>{
+        const exists=WORKOUT_DATA.find(w=>w.date===nr.date&&w.title===nr.title);
+        if(!exists) WORKOUT_DATA.push(nr);
+      });
+
+      // Recalculate PMC
+      const atl_decay=Math.exp(-1/7), ctl_decay=Math.exp(-1/42);
+      const atl_f=1-atl_decay, ctl_f=1-ctl_decay;
+      const dailyTSS={};
+      WORKOUT_DATA.forEach(w=>{ dailyTSS[w.date]=(dailyTSS[w.date]||0)+w.tss; });
+
+      let ctl=0,atl=0;
+      const allDates=PMC_DATA.map(d=>d.date);
+      const lastDate=allDates[allDates.length-1];
+      // Extend to cover new dates
+      newRides.forEach(nr=>{
+        if(!allDates.includes(nr.date)) allDates.push(nr.date);
+      });
+      allDates.sort();
+
+      const newPMC=[];
+      allDates.forEach(date=>{
+        const existing=PMC_DATA.find(d=>d.date===date);
+        if(existing&&!dailyTSS[date]){ newPMC.push(existing); ctl=existing.ctl; atl=existing.atl; return; }
+        const tss=dailyTSS[date]||0;
+        atl=atl*atl_decay+tss*atl_f;
+        ctl=ctl*ctl_decay+tss*ctl_f;
+        const tsb=ctl-atl;
+        newPMC.push({date,tss:Math.round(tss*10)/10,atl:Math.round(atl*10)/10,ctl:Math.round(ctl*10)/10,tsb:Math.round(tsb*10)/10});
+      });
+
+      // Update global and redraw
+      PMC_DATA.length=0;
+      newPMC.forEach(d=>PMC_DATA.push(d));
+      pmcPopulateStats();
+      pmcBuildMain(42);
+      pmcBuildBar();
+      pmcBuildTable();
+      document.getElementById('uploadStatus').style.display='inline';
+      setTimeout(()=>document.getElementById('uploadStatus').style.display='none',3000);
+    } catch(err){ alert('Error reading CSV: '+err.message); }
+  };
+  reader.readAsText(file);
+}
+
+// ─── PMC INIT (called when PMC tab first becomes visible) ─────────────────────
+let pmcInitialised=false;
+function initPMC(){
+  if(pmcInitialised) return;
+  pmcInitialised=true;
+  pmcPopulateStats();
+  pmcBuildMain(42);
+  pmcBuildBar();
+  pmcBuildTable();
+}
+
+</script>
+</body>
+</html>
